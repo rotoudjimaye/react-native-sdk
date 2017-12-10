@@ -4,6 +4,10 @@
 A React-native component for Android Lenddo Data SDK [https://www.lenddo.com/documentation/data_sdk.html].
 
 
+## Demo app
+
+[https://bitbucket.org/leqstamaria/react-native-data-sdk-demo]
+
 ### Installation
 
 ```bash
