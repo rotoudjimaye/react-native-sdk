@@ -28,7 +28,7 @@ Lenddo Data SDK ver 2.21.0
     
 ## Introduction 
 
-The Lenddo Data SDK (LenddoDataSDK) allows you to collect information in order for Lenddo to verify the user's information and enhance its scoring capabilities. The LenddoDataSDK collects information in the background and can be activated as soon as the user has downloaded the app, given permissions and logged into the app.
+The Lenddo Data SDK (data-sdk) allows you to collect information in order for Lenddo to verify the user's information and enhance its scoring capabilities. The data-sdk collects information in the background and can be activated as soon as the user has downloaded the app, given permissions and logged into the app.
 
 ## Pre-requisites 
 
@@ -46,7 +46,7 @@ There may be also other partner specific values that you are required to set.
 
 ## Data Collection Mechanism and Required Permissions
 
-The LenddoDataSDK captures the following data stored on the phone consistent with the permissions defined (see section on adding permissions):
+The data-sdk captures the following data stored on the phone consistent with the permissions defined (see section on adding permissions):
 
 *   Contacts
 *   SMS (Performed Periodically)
@@ -57,7 +57,7 @@ The LenddoDataSDK captures the following data stored on the phone consistent wit
 *   Calendar Events
 *   Phone Number, Brand and Model
 
-LenddoDataSDK will use information stored on the users' phone. It is advisable for all permissions to be added to your app to enable LenddoData to extract the necessary information for verification and scoring. The optimal permissions are already defined for you in the Libraries’ AndroidManifest.xml and are automatically added to your app using gradle when you rebuild the app after adding our SDK.
+data-sdk will use information stored on the users' phone. It is advisable for all permissions to be added to your app to enable LenddoData to extract the necessary information for verification and scoring. The optimal permissions are already defined for you in the Libraries’ AndroidManifest.xml and are automatically added to your app using gradle when you rebuild the app after adding our SDK.
 
 Below is the list of required permissions.
 
@@ -75,7 +75,7 @@ Below is the list of required permissions.
 <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 ```
 
-If you do not want the all default permissions added, you manually have to remove permissions by editing the **lenddodatasdk/src/main/AndroidManifest.xml** and comment out permissions you do not wish to grant, however please note that the following permissions at the minimum are required for the operation of the SDK and should NOT be removed:
+If you do not want the all default permissions added, you manually have to remove permissions by editing the **data-sdk/src/main/AndroidManifest.xml** and comment out permissions you do not wish to grant, however please note that the following permissions at the minimum are required for the operation of the SDK and should NOT be removed:
 
 ```java
 <uses-permission android:name="android.permission.INTERNET" />
@@ -138,15 +138,15 @@ A sample app is provided with the SDK package for you to test the Data SDK. If y
 
 ## Installation Instructions
 
-Extract the LenddoData SDK package that was provided if you have not done so already, it should contain the _lenddodatasdk_ folder. Import that folder to your project as a new module.
+Extract the LenddoData SDK package that was provided if you have not done so already, it should contain the _data-sdk_ folder. Import that folder to your project as a new module.
 
 In the **settings.gradle** of your project
 
 ```java
-include ':lenddodatasdk'
+include ':data-sdk'
 ```
 
-Then add _lenddodatasdk_ as a dependency in your main apps, build.gradle, as below:
+Then add _data-sdk_ as a dependency in your main apps, build.gradle, as below:
 
 ```java
 dependencies {
@@ -154,7 +154,7 @@ dependencies {
 
     ....
 
-    compile project(':lenddodatasdk')
+    compile project(':data-sdk')
 }
 ```
 

@@ -11,7 +11,7 @@ A React-native component for Android Lenddo Data SDK [https://www.lenddo.com/doc
 ### Installation
 
 ```bash
-npm install react-native-lenddodatasdk --save
+npm install react-native-data-sdk --save
 ```
 
 ### To run
@@ -22,6 +22,14 @@ npm install react-native-lenddodatasdk --save
 react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res
 
 ```
+
+or
+
+```bash
+react-native bundle --platform android --dev false --entry-file index.android.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res
+
+```
+
 *  Make sure an emulator is running or a device is connected
 
 ```bash
@@ -34,8 +42,8 @@ react-native run-android
 
 ```gradle
 ...
-include ':react-native-lenddodatasdk'
-project(':react-native-lenddodatasdk').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-lenddodatasdk/android/app')
+include ':react-native-data-sdk'
+project(':react-native-data-sdk').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-data-sdk/android/app')
 ```
 
 * In `android/app/build.gradle`
@@ -44,7 +52,7 @@ project(':react-native-lenddodatasdk').projectDir = new File(rootProject.project
 ...
 dependencies {
     ...
-    compile project(':react-native-lenddodatasdk')
+    compile project(':react-native-data-sdk')
 }
 ```
 
@@ -151,7 +159,7 @@ import { View, StyleSheet, Dimensions, Text, TouchableHighlight, ScrollView, Too
 import { TabViewAnimated, TabBar } from 'react-native-tab-view';
 import { TextField } from 'react-native-material-textfield';
 import CheckBox from 'react-native-check-box';
-import RNDataSdkWrapper from 'react-native-lenddodatasdk';
+import RNDataSdkWrapper from 'react-native-data-sdk';
 
 
 
