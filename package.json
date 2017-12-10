@@ -1,35 +1,37 @@
 {
-	"name": "react-native-lenddodatasdk",
-	"version": "0.0.1",
-	"private": true,
-	"scripts": {
-		"start": "node node_modules/react-native/local-cli/cli.js start",
-		"test": "jest"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git+https://bitbucket.org/Lenddo/react-native-data-sdk.git"
-	},
-	"author": {
-		"name": "Angelique Sta. Maria"
-	},
-	"dependencies": {
-		"react": "16.0.0",
-		"react-native": "0.50.4"
-	},
-	"devDependencies": {
-		"babel-jest": "21.2.0",
-		"babel-preset-react-native": "4.0.0",
-		"jest": "21.2.1",
-		"react-test-renderer": "16.0.0"
-	},
-	"jest": {
-		"preset": "react-native"
-	},
-	"homepage": "https://bitbucket.org/Lenddo/react-native-data-sdk.git",
-	"maintainers": [
-		{
-			"name": "Angelique Sta. Maria"
-		}
-	]
+  "name": "react-native-data-sdk",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node node_modules/react-native/local-cli/cli.js start",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitlab.com/leqstamaria/react-native-lenddodatasdk.git"
+  },
+  "author": "Angelique Sta. Maria",
+  "dependencies": {
+    "react": "16.0.0",
+    "react-native": "0.50.4"
+  },
+  "devDependencies": {
+    "babel-jest": "21.2.0",
+    "babel-preset-react-native": "4.0.0",
+    "jest": "21.2.1",
+    "react-test-renderer": "16.0.0"
+  },
+  "jest": {
+    "preset": "react-native"
+  },
+  "homepage": "https://gitlab.com/leqstamaria/react-native-lenddodatasdk.git",
+  "maintainers": [
+    "Angelique Sta. Maria"
+  ],
+  "description": "A React-native component for Android Lenddo Data SDK [https://www.lenddo.com/documentation/data_sdk.html].",
+  "bugs": {
+    "url": "https://gitlab.com/leqstamaria/react-native-lenddodatasdk/issues"
+  },
+  "main": "index.js",
+  "license": "ISC"
 }
