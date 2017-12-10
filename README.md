@@ -13,10 +13,13 @@ npm install react-native-lenddodatasdk --save
 ### To run
 
 * Update `index.android.bundle` whenever you modify your code in `App.js`
+
 ```bash
 react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res
+
 ```
 *  Make sure an emulator is running or a device is connected
+
 ```bash
 react-native run-android
 ```
