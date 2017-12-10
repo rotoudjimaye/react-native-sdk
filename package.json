@@ -1,6 +1,5 @@
 {
   "name": "react-native-data-sdk",
-  "private": true,
   "version": "0.0.1",
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
@@ -8,7 +7,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://bitbucket.org/Lenddo/react-native-data-sdk.git"
+    "url": "git+https://gitlab.com/leqstamaria/react-native-lenddodatasdk.git"
   },
   "author": "Angelique Sta. Maria",
   "dependencies": {
@@ -24,11 +23,14 @@
   "jest": {
     "preset": "react-native"
   },
-  "homepage": "https://bitbucket.org/Lenddo/react-native-data-sdk",
+  "homepage": "https://gitlab.com/leqstamaria/react-native-lenddodatasdk.git",
   "maintainers": [
     "Angelique Sta. Maria"
   ],
   "description": "A React-native component for Android Lenddo Data SDK [https://www.lenddo.com/documentation/data_sdk.html].",
+  "bugs": {
+    "url": "https://gitlab.com/leqstamaria/react-native-lenddodatasdk/issues"
+  },
   "main": "index.js",
   "license": "ISC"
 }
