@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-
 # RNDataSdkWrapper
 
 A React-native component for Android Lenddo Data SDK [https://www.lenddo.com/documentation/data_sdk.html].
@@ -671,7 +669,3 @@ const styles = StyleSheet.create({
     },
 });
 ```
-=======
-# react-native-data-sdk
-
->>>>>>> ca143dd659b566ec857e86e8b86eff9203e178f1
