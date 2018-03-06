@@ -69,7 +69,7 @@ import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
-import com.lenddo.data.RNDataSdkWrapperPackage; //<--- import
+import com.lenddo.data.RNDataSdkWrapperPackage; //<--- add in your code
 import com.rncollapsingtoolbar.RNCollapsingToolbarPackage;
 import com.rnnestedscrollview.RNNestedScrollViewPackage;
 
@@ -91,7 +91,7 @@ public class MainApplication extends Application implements ReactApplication {
                     new MainReactPackage(),
                     new RNCollapsingToolbarPackage(),
                     new RNNestedScrollViewPackage(),
-                    new RNDataSdkWrapperPackage(getPartnerScriptIds(), getApiSecrets()) //<--- add here
+                    new RNDataSdkWrapperPackage(getPartnerScriptIds(), getApiSecrets()) //<--- add this line to your code
             );
         }
 
@@ -117,7 +117,8 @@ public class MainApplication extends Application implements ReactApplication {
         super.attachBaseContext(base);
         MultiDex.install(this);
     }
-
+    
+    // Add this next two function to enable fetching secret and partners script ids.
     private List<String> getPartnerScriptIds() {
         List<String> partnerScriptIds = new ArrayList<String>();
         partnerScriptIds.add(getResources().getString(R.string.partner_script_id));
@@ -135,6 +136,11 @@ public class MainApplication extends Application implements ReactApplication {
 }
 
 ```
+
+## Add resource
+
+`<string name="partner_script_id">partnerscrip_id_here</string>`
+`<string name="api_secret">secret_here</string>`
 
 ## API
 
@@ -173,7 +179,6 @@ country, postalCode, latitude,
 longitude, applicationId, jsonPayload,  callback)
 
 submitFormFillingAnalytics()
-
 
 ## Example
 ```javascript
