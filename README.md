@@ -10,7 +10,7 @@ A React-native component for Android Lenddo Data SDK [https://www.lenddo.com/doc
 ### Installation
 
 ```bash
-npm install react-native-data-sdk --save
+npm install @lenddo/react-native-sdk --save
 ```
 
 ### To run
@@ -42,7 +42,7 @@ react-native run-android
 ```gradle
 ...
 include ':react-native-data-sdk'
-project(':react-native-data-sdk').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-data-sdk/android/app')
+project(':react-native-data-sdk').projectDir = new File(rootProject.projectDir, '../node_modules/@lenddo/react-native-sdk/android/app')
 ```
 
 * In `android/app/build.gradle`
