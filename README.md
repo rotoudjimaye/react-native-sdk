@@ -5,7 +5,7 @@ A React-native component for Android Lenddo Data SDK [https://www.lenddo.com/doc
 
 ## Demo app
 
-[https://leqstamaria@bitbucket.org/Lenddo/react-native-sample-app.git]
+[https://github.com/Lenddo/react-native-sdk-sample-app]
 
 ### Installation
 
