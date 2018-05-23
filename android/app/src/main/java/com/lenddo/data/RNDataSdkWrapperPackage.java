@@ -6,6 +6,7 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.uimanager.ViewManager;
 import java.util.Arrays;
 import java.util.List;
+import java.util.ArrayList;
 
 public class RNDataSdkWrapperPackage implements ReactPackage {
   private List<String> partnerScriptIds, apiSecrets;
@@ -21,7 +22,6 @@ public class RNDataSdkWrapperPackage implements ReactPackage {
         List<NativeModule> modules = new ArrayList<>();
 
         modules.add(new RNDataSdkWrapper(reactContext, partnerScriptIds, apiSecrets));
-        modules.add(new RNClientOptions(reactContext));
 
         return modules;
     }
