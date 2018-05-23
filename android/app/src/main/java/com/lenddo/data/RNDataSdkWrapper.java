@@ -52,6 +52,8 @@ public class RNDataSdkWrapper extends ReactContextBaseJavaModule {
         this.reactContext = reactContext;
         this.partnerScriptIds = partnerScriptIds;
         this.apiSecrets = apiSecrets;
+        this.partnerScriptId = partnerScriptIds.get(0);
+        this.apiSecret = apiSecrets.get(0);
     }
 
     @ReactMethod
@@ -319,11 +321,11 @@ public class RNDataSdkWrapper extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void setup() {
-        AndroidData.setup(reactContext, partnerScriptIds.get(0), apiSecrets.get(0), null);
+        AndroidData.setup(reactContext, partnerScriptId, apiSecret, null);
     }
 
     @ReactMethod
-    public void setup(final Callback callback) {
+    public void setupWithCallback(final Callback callback) {
         ClientOptions clientOptions = new ClientOptions();
         clientOptions.registerDataSendingCompletionCallback(new OnDataSendingCompleteCallback() {
             @Override
@@ -374,74 +376,32 @@ public class RNDataSdkWrapper extends ReactContextBaseJavaModule {
                         });
             }
         });
-        AndroidData.setup(reactContext, partnerScriptIds.get(0), apiSecrets.get(0), clientOptions);
+        AndroidData.setup(reactContext, partnerScriptId, apiSecret, clientOptions);
     }
 
     @ReactMethod
-    public void setup(String gatewayUrl, boolean wifiOnly,
-                      boolean enableLogDisplay, boolean enableSms,
-                      boolean enableCallLog, boolean enableContact,
-                      boolean enableCalendarEvent, boolean enableInstalledApp,
-                      boolean enableBrowserHistory, boolean enableLocation,
-                      boolean enableBattCharge, boolean enableGalleryMetaData,
-                      boolean enableSmsBody, boolean enablePhoneNumber,
-                      boolean enableContactsName, boolean enableContactsEmail,
-                      boolean enableCalendarOrganizer, boolean enableCalendarDisplayName,
-                      boolean enableCalendarEmail, final Callback callback) {
+    public void setupWithClientOptions(RNClientOptions rnClientOptions) {
+        ClientOptions clientOptions = rnClientOptions.getClientOptions();
         Log.d(TAG, "setup:: partnerScriptId:: " + partnerScriptId + ", apiSecret:: " + apiSecret);
-        Log.d(TAG, "setup:: gatewayUrl:: " + gatewayUrl);
-        Log.d(TAG, "setup:: wifiOnly:: " + wifiOnly);
-        Log.d(TAG, "setup:: enableLogDisplay:: " + enableLogDisplay);
-        Log.d(TAG, "setup:: enableSms:: " + enableSms);
-        Log.d(TAG, "setup:: enableCallLog:: " + enableCallLog);
-        Log.d(TAG, "setup:: enableContact:: " + enableContact);
-        Log.d(TAG, "setup:: enableCalendarEvent:: " + enableCalendarEvent);
-        Log.d(TAG, "setup:: enableInstalledApp:: " + enableInstalledApp);
-        Log.d(TAG, "setup:: enableBrowserHistory:: " + enableBrowserHistory);
-        Log.d(TAG, "setup:: enableLocation:: " + enableLocation);
-        Log.d(TAG, "setup:: enableBattCharge:: " + enableBattCharge);
-        Log.d(TAG, "setup:: enableGalleryMetaData:: " + enableGalleryMetaData);
-        Log.d(TAG, "setup:: enableSmsBody:: " + enableSmsBody);
-        Log.d(TAG, "setup:: enablePhoneNumber:: " + enablePhoneNumber);
-        Log.d(TAG, "setup:: enableContactsName:: " + enableContactsName);
-        Log.d(TAG, "setup:: enableContactsEmail:: " + enableContactsEmail);
-        Log.d(TAG, "setup:: enableCalendarOrganizer:: " + enableCalendarOrganizer);
-        Log.d(TAG, "setup:: enableCalendarDisplayName:: " + enableCalendarDisplayName);
-        Log.d(TAG, "setup:: enableCalendarEmail:: " + enableCalendarEmail);
+        Log.d(TAG, "setup:: wifiOnly:: " + clientOptions.isWifiOnly());
+        Log.d(TAG, "setup:: enableSms:: " + clientOptions.isEnableSMS());
+        Log.d(TAG, "setup:: enableCallLog:: " + clientOptions.isEnableCallLog());
+        Log.d(TAG, "setup:: enableContact:: " + clientOptions.isEnableContact());
+        Log.d(TAG, "setup:: enableCalendarEvent:: " + clientOptions.isEnableCalendarEvent());
+        Log.d(TAG, "setup:: enableInstalledApp:: " + clientOptions.isEnableInstalledApp());
+        Log.d(TAG, "setup:: enableBrowserHistory:: " + clientOptions.isEnableBrowserHistory());
+        Log.d(TAG, "setup:: enableLocation:: " + clientOptions.isEnableLocation());
+        Log.d(TAG, "setup:: enableBattCharge:: " + clientOptions.isEnableBatteryCharge());
+        Log.d(TAG, "setup:: enableGalleryMetaData:: " + clientOptions.isEnableGalleryMetaData());
+        Log.d(TAG, "setup:: enableSmsBody:: " + clientOptions.isEnableSMSBody());
+        Log.d(TAG, "setup:: enablePhoneNumber:: " + clientOptions.isEnablePhoneNumberHashing());
+        Log.d(TAG, "setup:: enableContactsName:: " + clientOptions.isEnableContactsNameHashing());
+        Log.d(TAG, "setup:: enableContactsEmail:: " + clientOptions.isEnableContactsEmailHashing());
+        Log.d(TAG, "setup:: enableCalendarOrganizer:: " + clientOptions.isEnableCalendarOrganizerHashing());
+        Log.d(TAG, "setup:: enableCalendarDisplayName:: " + clientOptions.isEnableCalendarDisplayNameHashing());
+        Log.d(TAG, "setup:: enableCalendarEmail:: " + clientOptions.isEnableCalendarEmailHashing());
 
-        ClientOptions clientOptions = new ClientOptions();
-
-        // Hostname (Gateway)
-        if (gatewayUrl != null) {
-            clientOptions.setApiGatewayUrl(gatewayUrl);
-        }
-
-        // Upload Mode
-        clientOptions.setWifiOnly(wifiOnly);
-
-        // Debug Logs
-        clientOptions.enableLogDisplay(enableLogDisplay);
-
-        // Data types
-        if (!enableSms) clientOptions.disableSMSDataCollection();
-        if (!enableCallLog) clientOptions.disableCallLogDataCollection();
-        if (!enableContact) clientOptions.disableContactDataCollection();
-        if (!enableCalendarEvent) clientOptions.disableCalendarEventDataCollection();
-        if (!enableInstalledApp) clientOptions.disableInstalledAppDataCollection();
-        if (!enableBrowserHistory) clientOptions.disableBrowserHistoryDataCollection();
-        if (!enableLocation) clientOptions.disableLocationDataCollection();
-        if (!enableBattCharge) clientOptions.disableBattChargeDataCollection();
-        if (!enableGalleryMetaData) clientOptions.disableGalleryMetaDataCollection();
-        // SMS Body Content
-        if (!enableSmsBody) clientOptions.disableSMSBodyCollection();
-        //Data Hashing
-        if (enablePhoneNumber) clientOptions.enablePhoneNumberHashing();
-        if (enableContactsName) clientOptions.enableContactsNameHashing();
-        if (enableContactsEmail) clientOptions.enableContactsEmailHashing();
-        if (enableCalendarOrganizer) clientOptions.enableCalendarOrganizerHashing();
-        if (enableCalendarDisplayName) clientOptions.enableCalendarDisplayNameHashing();
-        if (enableCalendarEmail) clientOptions.enableCalendarEmailHashing();
-
+        final Callback callback = rnClientOptions.getReactNativeCallback();
         clientOptions.registerDataSendingCompletionCallback(new OnDataSendingCompleteCallback() {
             @Override
             public void onDataSendingSuccess() {
@@ -451,7 +411,7 @@ public class RNDataSdkWrapper extends ReactContextBaseJavaModule {
                             public void runGuarded() {
                                 try {
                                     Log.d(TAG, "Data Sending Callback: Success!");
-                                    callback.invoke(SUCCESS, "Success!");
+                                    if (callback != null) callback.invoke(SUCCESS, "Success!");
                                 } catch (Exception e) {
                                     //Catches the exception: java.lang.RuntimeException·Illegal callback invocation from native module
                                 }
@@ -467,7 +427,7 @@ public class RNDataSdkWrapper extends ReactContextBaseJavaModule {
                             public void runGuarded() {
                                 try {
                                     Log.d(TAG, "Data Sending Callback: Error: " + errorMessage);
-                                    callback.invoke(ERROR, "Error: " + errorMessage, statusCode);
+                                    if (callback != null) callback.invoke(ERROR, "Error: " + errorMessage, statusCode);
                                 } catch (Exception e) {
                                     //Catches the exception: java.lang.RuntimeException·Illegal callback invocation from native module
                                 }
@@ -483,7 +443,7 @@ public class RNDataSdkWrapper extends ReactContextBaseJavaModule {
                             public void runGuarded() {
                                 try {
                                     Log.d(TAG, "Data Sending Callback: Failed: " + t.getMessage());
-                                    callback.invoke(FAIL, "Failed: " + t.getMessage());
+                                    if (callback != null) callback.invoke(FAIL, "Failed: " + t.getMessage());
                                 } catch (Exception e) {
                                     //Catches the exception: java.lang.RuntimeException·Illegal callback invocation from native module
                                 }
@@ -583,6 +543,12 @@ public class RNDataSdkWrapper extends ReactContextBaseJavaModule {
     public void setApiSecret(int index) {
         Log.d(TAG, "setApiSecret: " + index);
         apiSecret = apiSecrets.get(index);
+    }
+
+    @java.lang.Override
+    @ReactMethod
+    public java.lang.String toString() {
+        return "RNDataSdkWrapper";
     }
 
 }

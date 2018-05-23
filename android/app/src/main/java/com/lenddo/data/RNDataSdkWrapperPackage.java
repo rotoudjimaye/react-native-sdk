@@ -18,7 +18,12 @@ public class RNDataSdkWrapperPackage implements ReactPackage {
     @Override
     public List<NativeModule> createNativeModules(
             ReactApplicationContext reactContext) {
-        return Arrays.<NativeModule>asList(new RNDataSdkWrapper(reactContext, partnerScriptIds, apiSecrets));
+        List<NativeModule> modules = new ArrayList<>();
+
+        modules.add(new RNDataSdkWrapper(reactContext, partnerScriptIds, apiSecrets));
+        modules.add(new RNClientOptions(reactContext));
+
+        return modules;
     }
 
     @Override
