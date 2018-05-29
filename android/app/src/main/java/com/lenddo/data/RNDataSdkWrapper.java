@@ -470,6 +470,7 @@ public class RNDataSdkWrapper extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void setPartnerScriptId(String partnerScriptId) {
+        this.partnerScriptId = partnerScriptId;
         LenddoCoreInfo.setCoreInfo(reactContext, LenddoCoreInfo.COREINFO_DATA_PARTNER_SCRIPT_ID, partnerScriptId);
         Log.d(TAG, "setPartnerScriptId: " + partnerScriptId);
     }
@@ -477,6 +478,7 @@ public class RNDataSdkWrapper extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void setApiSecret(String apiSecret) {
+        this.apiSecret = apiSecret;
         LenddoCoreInfo.setCoreInfo(reactContext, LenddoCoreInfo.COREINFO_API_SECRET, apiSecret);
         Log.d(TAG, "setApiSecret: " + apiSecret);
     }
