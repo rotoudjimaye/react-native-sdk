@@ -2,7 +2,6 @@ package com.lenddo.data;
 
 
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.GuardedRunnable;
@@ -19,6 +18,7 @@ import com.lenddo.mobile.datasdk.models.ApplicationPartnerData;
 import com.lenddo.mobile.datasdk.models.ClientOptions;
 import com.lenddo.mobile.datasdk.utils.AndroidDataUtils;
 import com.lenddo.mobile.core.LenddoCoreInfo;
+import com.lenddo.mobile.core.Log;
 
 import java.util.HashMap;
 import java.util.List;
@@ -26,9 +26,10 @@ import java.util.Map;
 
 
 public class RNClientOptions extends ReactContextBaseJavaModule {
+    private static final String TAG = "RNClientOptions";
     private Callback callback;
-    private ClientOptions clientOptions;
-    
+    public static ClientOptions clientOptions;
+
     public RNClientOptions(ReactApplicationContext reactContext) {
         super(reactContext);
 
@@ -36,19 +37,19 @@ public class RNClientOptions extends ReactContextBaseJavaModule {
         this.clientOptions = new ClientOptions();
     }
 
-    @ReactMethod
-    public void getClientOptions() {
-        return this.clientOptions;
+    @Override
+    public String getName() {
+        return "RNClientOptions";
     }
 
     @ReactMethod
-    public void setReactNativeCallback(Callback callback) {
-        this.callback = callback;
-    }
-
-    @ReactMethod
-    public Callback getReactNativeCallback() {
-        return this.callback;
+    public void getClientOptions(Callback callback) {
+        Log.d(TAG, "getClientOptions: " + this.clientOptions);
+        try {
+            callback.invoke(this.clientOptions);
+        } catch (Exception e) {
+            Log.e(TAG, "Error: ", e);
+        }
     }
 
     @ReactMethod
@@ -57,18 +58,33 @@ public class RNClientOptions extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public int[] getCustomMPermissionLayout() {
-        return this.clientOptions.getCustomMPermissionLayout();
+    public void getCustomMPermissionLayout(Callback callback) {
+        Log.d(TAG, "getCustomMPermissionLayout: " + this.clientOptions.getCustomMPermissionLayout());
+        try {
+            callback.invoke(this.clientOptions.getCustomMPermissionLayout());
+        } catch (Exception e) {
+
+        }
     }
 
     @ReactMethod
-    public boolean isCustomMPermission() {
-        return this.clientOptions.isCustomMPermission();
+    public void isCustomMPermission(Callback callback) {
+        Log.d(TAG, "isCustomMPermission: " + this.clientOptions.isCustomMPermission());
+        try {
+            callback.invoke(this.clientOptions.isCustomMPermission());
+        } catch (Exception e) {
+
+        }
     }
 
     @ReactMethod
-    public String getPartnerId() {
-        return this.clientOptions.getPartnerId();
+    public void getPartnerId(Callback callback) {
+        Log.d(TAG, "getPartnerId");
+        try {
+            callback.invoke(this.clientOptions.getPartnerId());
+        } catch (Exception e) {
+
+        }
     }
 
     @ReactMethod
@@ -77,8 +93,13 @@ public class RNClientOptions extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public boolean isWifiOnly() {
-        return this.clientOptions.isWifiOnly();
+    public void isWifiOnly(Callback callback) {
+        Log.d(TAG, "isWifiOnly: " + this.clientOptions.isWifiOnly());
+        try {
+            callback.invoke(this.clientOptions.isWifiOnly());
+        } catch (Exception e) {
+
+        }
     }
 
     @ReactMethod
@@ -92,8 +113,13 @@ public class RNClientOptions extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public String getPartnerScriptId() {
-        return this.clientOptions.getPartnerScriptId();
+    public void getPartnerScriptId(Callback callback) {
+        Log.d(TAG, "getPartnerScriptId: " + this.clientOptions.getPartnerScriptId());
+        try {
+            callback.invoke(this.clientOptions.getPartnerScriptId());
+        } catch (Exception e) {
+
+        }
     }
 
     @ReactMethod
@@ -102,8 +128,13 @@ public class RNClientOptions extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public int getThemeColor() {
-        return this.clientOptions.getThemeColor();
+    public void getThemeColor(Callback callback) {
+        Log.d(TAG, "getThemeColor: " + this.clientOptions.getThemeColor());
+        try {
+            callback.invoke(this.clientOptions.getThemeColor());
+        } catch (Exception e) {
+            Log.e(TAG, "Error: ", e);
+        }
     }
 
     @ReactMethod
@@ -192,88 +223,173 @@ public class RNClientOptions extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public boolean isEnableSMS() {
-        return this.clientOptions.isEnableSMS();
+    public void isEnableSMS(Callback callback) {
+        Log.d(TAG, "isEnableSMS: " + this.clientOptions.isEnableSMS());
+        try {
+            callback.invoke(this.clientOptions.isEnableSMS());
+        } catch (Exception e) {
+            Log.e(TAG, "Error: ", e);
+        }
     }
 
     @ReactMethod
-    public boolean isEnableCallLog() {
-        return this.clientOptions.isEnableCallLog();
+    public void isEnableCallLog(Callback callback) {
+        Log.d(TAG, "isEnableCallLog: " + this.clientOptions.isEnableCallLog());
+        try {
+            callback.invoke(this.clientOptions.isEnableCallLog());
+        } catch (Exception e) {
+            Log.e(TAG, "Error: ", e);
+        }
     }
 
     @ReactMethod
-    public boolean isEnableContact() {
-        return this.clientOptions.isEnableContact();
+    public void isEnableContact(Callback callback) {
+        Log.d(TAG, "isEnableContact: " + this.clientOptions.isEnableContact());
+        try {
+            callback.invoke(this.clientOptions.isEnableContact());
+        } catch (Exception e) {
+            Log.e(TAG, "Error: ", e);
+        }
     }
 
     @ReactMethod
-    public boolean isEnableCalendarEvent() {
-        return this.clientOptions.isEnableCalendarEvent();
+    public void isEnableCalendarEvent(Callback callback) {
+        Log.d(TAG, "isEnableCalendarEvent: " + this.clientOptions.isEnableCalendarEvent());
+        try {
+            callback.invoke(this.clientOptions.isEnableCalendarEvent());
+        } catch (Exception e) {
+            Log.e(TAG, "Error: ", e);
+        }
     }
 
     @ReactMethod
-    public boolean isEnableInstalledApp() {
-        return this.clientOptions.isEnableInstalledApp();
+    public void isEnableInstalledApp(Callback callback) {
+        Log.d(TAG, "isEnableInstalledApp: " + this.clientOptions.isEnableInstalledApp());
+        try {
+            callback.invoke(this.clientOptions.isEnableInstalledApp());
+        } catch (Exception e) {
+            Log.e(TAG, "Error: ", e);
+        }
     }
 
     @ReactMethod
-    public boolean isEnableBrowserHistory() {
-        return this.clientOptions.isEnableBrowserHistory();
+    public void isEnableBrowserHistory(Callback callback) {
+        Log.d(TAG, "isEnableBrowserHistory: " + this.clientOptions.isEnableBrowserHistory());
+        try {
+            callback.invoke(this.clientOptions.isEnableBrowserHistory());
+        } catch (Exception e) {
+            Log.e(TAG, "Error: ", e);
+        }
     }
 
     @ReactMethod
-    public boolean isEnableLocation() {
-        return this.clientOptions.isEnableLocation();
+    public void isEnableLocation(Callback callback) {
+        Log.d(TAG, "isEnableLocation: " + this.clientOptions.isEnableLocation());
+        try {
+            callback.invoke(this.clientOptions.isEnableLocation());
+        } catch (Exception e) {
+            Log.e(TAG, "Error: ", e);
+        }
     }
 
     @ReactMethod
-    public boolean isEnableBatteryCharge() {
-        return this.clientOptions.isEnableBatteryCharge();
+    public void isEnableBatteryCharge(Callback callback) {
+        Log.d(TAG, "isEnableBatteryCharge: " + this.clientOptions.isEnableBatteryCharge());
+        try {
+            callback.invoke(this.clientOptions.isEnableBatteryCharge());
+        } catch (Exception e) {
+            Log.e(TAG, "Error: ", e);
+        }
     }
 
     @ReactMethod
-    public boolean isEnableGalleryMetaData() {
-        return this.clientOptions.isEnableGalleryMetaData();
+    public void isEnableGalleryMetaData(Callback callback) {
+        Log.d(TAG, "isEnableGalleryMetaData: " + this.clientOptions.isEnableGalleryMetaData());
+        try {
+            callback.invoke(this.clientOptions.isEnableGalleryMetaData());
+        } catch (Exception e) {
+            Log.e(TAG, "Error: ", e);
+        }
     }
 
     @ReactMethod
-    public boolean isEnableMediaMetaData() {
-        return this.clientOptions.isEnableMediaMetaData();
+    public void isEnableMediaMetaData(Callback callback) {
+        Log.d(TAG, "isEnableMediaMetaData: " + this.clientOptions.isEnableMediaMetaData());
+        try {
+            callback.invoke(this.clientOptions.isEnableMediaMetaData());
+        } catch (Exception e) {
+            Log.e(TAG, "Error: ", e);
+        }
     }
 
     @ReactMethod
-    public boolean isEnableSMSBody() {
-        return this.clientOptions.isEnableSMSBody();
+    public void isEnableSMSBody(Callback callback) {
+        Log.d(TAG, "isEnableSMSBody: " + this.clientOptions.isEnableSMSBody());
+        try {
+            callback.invoke(this.clientOptions.isEnableSMSBody());
+        } catch (Exception e) {
+            Log.e(TAG, "Error: ", e);
+        }
     }
 
     @ReactMethod
-    public boolean isEnablePhoneNumberHashing() {
-        return this.clientOptions.isEnablePhoneNumberHashing();
+    public void isEnablePhoneNumberHashing(Callback callback) {
+        Log.d(TAG, "isEnablePhoneNumberHashing: " + this.clientOptions.isEnablePhoneNumberHashing());
+        try {
+            callback.invoke(this.clientOptions.isEnablePhoneNumberHashing());
+        } catch (Exception e) {
+            Log.e(TAG, "Error: ", e);
+        }
     }
 
     @ReactMethod
-    public boolean isEnableContactsNameHashing() {
-        return this.clientOptions.isEnableContactsNameHashing();
+    public void isEnableContactsNameHashing(Callback callback) {
+        Log.d(TAG, "isEnableContactsNameHashing: " + this.clientOptions.isEnableContactsNameHashing());
+        try {
+            callback.invoke(this.clientOptions.isEnableContactsNameHashing());
+        } catch (Exception e) {
+            Log.e(TAG, "Error: ", e);
+        }
     }
 
     @ReactMethod
-    public boolean isEnableContactsEmailHashing() {
-        return this.clientOptions.isEnableContactsEmailHashing();
+    public void isEnableContactsEmailHashing(Callback callback) {
+        Log.d(TAG, "isEnableContactsEmailHashing: " + this.clientOptions.isEnableContactsEmailHashing());
+        try {
+            callback.invoke(this.clientOptions.isEnableContactsEmailHashing());
+        } catch (Exception e) {
+            Log.e(TAG, "Error: ", e);
+        }
     }
 
     @ReactMethod
-    public boolean isEnableCalendarOrganizerHashing() {
-        return this.clientOptions.isEnableCalendarOrganizerHashing();
+    public void isEnableCalendarOrganizerHashing(Callback callback) {
+        Log.d(TAG, "isEnableCalendarOrganizerHashing: " + this.clientOptions.isEnableCalendarOrganizerHashing());
+        try {
+            callback.invoke(this.clientOptions.isEnableCalendarOrganizerHashing());
+        } catch (Exception e) {
+            Log.e(TAG, "Error: ", e);
+        }
     }
 
     @ReactMethod
-    public boolean isEnableCalendarDisplayNameHashing() {
-        return this.clientOptions.isEnableCalendarDisplayNameHashing();
+    public void isEnableCalendarDisplayNameHashing(Callback callback) {
+        Log.d(TAG, "isEnableCalendarDisplayNameHashing: " + this.clientOptions.isEnableCalendarDisplayNameHashing());
+        try {
+            callback.invoke(this.clientOptions.isEnableCalendarDisplayNameHashing());
+        } catch (Exception e) {
+            Log.e(TAG, "Error: ", e);
+        }
     }
 
     @ReactMethod
-    public boolean isEnableCalendarEmailHashing() {
-        return this.clientOptions.isEnableCalendarEmailHashing();
+    public void isEnableCalendarEmailHashing(Callback callback) {
+        Log.d(TAG, "isEnableCalendarEmailHashing: " + this.clientOptions.isEnableCalendarEmailHashing());
+        try {
+            callback.invoke(this.clientOptions.isEnableCalendarEmailHashing());
+        } catch (Exception e) {
+            Log.e(TAG, "Error: ", e);
+        }
     }
 
     @ReactMethod

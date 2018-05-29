@@ -2,7 +2,6 @@ package com.lenddo.data;
 
 
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.GuardedRunnable;
@@ -14,11 +13,13 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.lenddo.mobile.datasdk.AndroidData;
+import com.lenddo.mobile.datasdk.DataManager;
 import com.lenddo.mobile.datasdk.listeners.OnDataSendingCompleteCallback;
 import com.lenddo.mobile.datasdk.models.ApplicationPartnerData;
 import com.lenddo.mobile.datasdk.models.ClientOptions;
 import com.lenddo.mobile.datasdk.utils.AndroidDataUtils;
 import com.lenddo.mobile.core.LenddoCoreInfo;
+import com.lenddo.mobile.core.Log;
 
 import java.util.HashMap;
 import java.util.List;
@@ -39,21 +40,19 @@ public class RNDataSdkWrapper extends ReactContextBaseJavaModule {
 
     private static final String TAG = "RNDataSdkWrapper";
     private ReactApplicationContext reactContext;
-    private List<String> partnerScriptIds;
-    private List<String> apiSecrets;
     private String partnerScriptId;
     private String apiSecret;
 
-
-    public RNDataSdkWrapper(ReactApplicationContext reactContext, List<String> partnerScriptIds, List<String> apiSecrets) {
+    public RNDataSdkWrapper(ReactApplicationContext reactContext) {
         super(reactContext);
         Log.d(TAG, "RNDataSdkWrapper");
-        LenddoCoreInfo.initCoreInfo(reactContext);
         this.reactContext = reactContext;
-        this.partnerScriptIds = partnerScriptIds;
-        this.apiSecrets = apiSecrets;
-        this.partnerScriptId = partnerScriptIds.get(0);
-        this.apiSecret = apiSecrets.get(0);
+
+        partnerScriptId = LenddoCoreInfo.getCoreInfo(reactContext, LenddoCoreInfo.COREINFO_DATA_PARTNER_SCRIPT_ID);
+        apiSecret = LenddoCoreInfo.getCoreInfo(reactContext, LenddoCoreInfo.COREINFO_API_SECRET);
+
+        Log.d(TAG, "partnerScriptId: " + partnerScriptId);
+        Log.d(TAG, "apiSecret: " + apiSecret);
     }
 
     @ReactMethod
@@ -128,6 +127,9 @@ public class RNDataSdkWrapper extends ReactContextBaseJavaModule {
     public void clear() {
         Log.d(TAG, "clear");
         AndroidData.clear(reactContext);
+
+        // Clear is a demo method, re-init lenddo core info after clearing
+        LenddoCoreInfo.initCoreInfo(reactContext);
     }
 
     @ReactMethod
@@ -321,12 +323,13 @@ public class RNDataSdkWrapper extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void setup() {
-        AndroidData.setup(reactContext, partnerScriptId, apiSecret, null);
+        AndroidData.setup(reactContext, null);
     }
 
     @ReactMethod
     public void setupWithCallback(final Callback callback) {
-        ClientOptions clientOptions = new ClientOptions();
+        Log.d(TAG, "setupWithCallback");
+        ClientOptions clientOptions = DataManager.getInstance().getClientOptions();
         clientOptions.registerDataSendingCompletionCallback(new OnDataSendingCompleteCallback() {
             @Override
             public void onDataSendingSuccess() {
@@ -376,82 +379,15 @@ public class RNDataSdkWrapper extends ReactContextBaseJavaModule {
                         });
             }
         });
-        AndroidData.setup(reactContext, partnerScriptId, apiSecret, clientOptions);
+
+        DataManager.getInstance().setClientOptions(clientOptions);
     }
 
     @ReactMethod
-    public void setupWithClientOptions(RNClientOptions rnClientOptions) {
-        ClientOptions clientOptions = rnClientOptions.getClientOptions();
-        Log.d(TAG, "setup:: partnerScriptId:: " + partnerScriptId + ", apiSecret:: " + apiSecret);
-        Log.d(TAG, "setup:: wifiOnly:: " + clientOptions.isWifiOnly());
-        Log.d(TAG, "setup:: enableSms:: " + clientOptions.isEnableSMS());
-        Log.d(TAG, "setup:: enableCallLog:: " + clientOptions.isEnableCallLog());
-        Log.d(TAG, "setup:: enableContact:: " + clientOptions.isEnableContact());
-        Log.d(TAG, "setup:: enableCalendarEvent:: " + clientOptions.isEnableCalendarEvent());
-        Log.d(TAG, "setup:: enableInstalledApp:: " + clientOptions.isEnableInstalledApp());
-        Log.d(TAG, "setup:: enableBrowserHistory:: " + clientOptions.isEnableBrowserHistory());
-        Log.d(TAG, "setup:: enableLocation:: " + clientOptions.isEnableLocation());
-        Log.d(TAG, "setup:: enableBattCharge:: " + clientOptions.isEnableBatteryCharge());
-        Log.d(TAG, "setup:: enableGalleryMetaData:: " + clientOptions.isEnableGalleryMetaData());
-        Log.d(TAG, "setup:: enableSmsBody:: " + clientOptions.isEnableSMSBody());
-        Log.d(TAG, "setup:: enablePhoneNumber:: " + clientOptions.isEnablePhoneNumberHashing());
-        Log.d(TAG, "setup:: enableContactsName:: " + clientOptions.isEnableContactsNameHashing());
-        Log.d(TAG, "setup:: enableContactsEmail:: " + clientOptions.isEnableContactsEmailHashing());
-        Log.d(TAG, "setup:: enableCalendarOrganizer:: " + clientOptions.isEnableCalendarOrganizerHashing());
-        Log.d(TAG, "setup:: enableCalendarDisplayName:: " + clientOptions.isEnableCalendarDisplayNameHashing());
-        Log.d(TAG, "setup:: enableCalendarEmail:: " + clientOptions.isEnableCalendarEmailHashing());
-
-        final Callback callback = rnClientOptions.getReactNativeCallback();
-        clientOptions.registerDataSendingCompletionCallback(new OnDataSendingCompleteCallback() {
-            @Override
-            public void onDataSendingSuccess() {
-                UiThreadUtil.runOnUiThread(
-                        new GuardedRunnable(reactContext) {
-                            @Override
-                            public void runGuarded() {
-                                try {
-                                    Log.d(TAG, "Data Sending Callback: Success!");
-                                    if (callback != null) callback.invoke(SUCCESS, "Success!");
-                                } catch (Exception e) {
-                                    //Catches the exception: java.lang.RuntimeException·Illegal callback invocation from native module
-                                }
-                            }
-                        });
-            }
-
-            @Override
-            public void onDataSendingError(final int statusCode, final String errorMessage) {
-                UiThreadUtil.runOnUiThread(
-                        new GuardedRunnable(reactContext) {
-                            @Override
-                            public void runGuarded() {
-                                try {
-                                    Log.d(TAG, "Data Sending Callback: Error: " + errorMessage);
-                                    if (callback != null) callback.invoke(ERROR, "Error: " + errorMessage, statusCode);
-                                } catch (Exception e) {
-                                    //Catches the exception: java.lang.RuntimeException·Illegal callback invocation from native module
-                                }
-                            }
-                        });
-            }
-
-            @Override
-            public void onDataSendingFailed(final Throwable t) {
-                UiThreadUtil.runOnUiThread(
-                        new GuardedRunnable(reactContext) {
-                            @Override
-                            public void runGuarded() {
-                                try {
-                                    Log.d(TAG, "Data Sending Callback: Failed: " + t.getMessage());
-                                    if (callback != null) callback.invoke(FAIL, "Failed: " + t.getMessage());
-                                } catch (Exception e) {
-                                    //Catches the exception: java.lang.RuntimeException·Illegal callback invocation from native module
-                                }
-                            }
-                        });
-            }
-        });
-        AndroidData.setup(reactContext, partnerScriptId, apiSecret, clientOptions);
+    public void setupWithClientOptions() {
+        Log.d(TAG, "setupWithClientOptions");
+        ClientOptions clientOptions = RNClientOptions.clientOptions;
+        DataManager.getInstance().setClientOptions(clientOptions);
     }
 
     @ReactMethod
@@ -533,16 +469,16 @@ public class RNDataSdkWrapper extends ReactContextBaseJavaModule {
 
 
     @ReactMethod
-    public void setPartnerScriptId(int index) {
-        Log.d(TAG, "setPartnerScriptId: " + index);
-        partnerScriptId = partnerScriptIds.get(index);
+    public void setPartnerScriptId(String partnerScriptId) {
+        LenddoCoreInfo.setCoreInfo(reactContext, LenddoCoreInfo.COREINFO_DATA_PARTNER_SCRIPT_ID, partnerScriptId);
+        Log.d(TAG, "setPartnerScriptId: " + partnerScriptId);
     }
 
 
     @ReactMethod
-    public void setApiSecret(int index) {
-        Log.d(TAG, "setApiSecret: " + index);
-        apiSecret = apiSecrets.get(index);
+    public void setApiSecret(String apiSecret) {
+        LenddoCoreInfo.setCoreInfo(reactContext, LenddoCoreInfo.COREINFO_API_SECRET, apiSecret);
+        Log.d(TAG, "setApiSecret: " + apiSecret);
     }
 
     @java.lang.Override
@@ -551,271 +487,4 @@ public class RNDataSdkWrapper extends ReactContextBaseJavaModule {
         return "RNDataSdkWrapper";
     }
 
-
-    public static class RNClientOptions {
-        private Callback callback;
-        private ClientOptions clientOptions;
-
-        @ReactMethod
-        public RNClientOptions() {
-            Log.d(TAG, "RNClientOptions");
-            this.clientOptions = new ClientOptions();
-        }
-
-        @ReactMethod
-        public ClientOptions getClientOptions() {
-            return this.clientOptions;
-        }
-
-        @ReactMethod
-        public void setReactNativeCallback(Callback callback) {
-            this.callback = callback;
-        }
-
-        @ReactMethod
-        public Callback getReactNativeCallback() {
-            return this.callback;
-        }
-
-        @ReactMethod
-        public void setCustomMPermissionLayout(int intro, int rationale, int feedback, int thankyou) {
-            this.clientOptions.setCustomMPermissionLayout(intro, rationale, feedback, thankyou);
-        }
-
-        @ReactMethod
-        public int[] getCustomMPermissionLayout() {
-            return this.clientOptions.getCustomMPermissionLayout();
-        }
-
-        @ReactMethod
-        public boolean isCustomMPermission() {
-            return this.clientOptions.isCustomMPermission();
-        }
-
-        @ReactMethod
-        public String getPartnerId() {
-            return this.clientOptions.getPartnerId();
-        }
-
-        @ReactMethod
-        public void setPartnerId(String partnerId) {
-            this.clientOptions.setPartnerId(partnerId);
-        }
-
-        @ReactMethod
-        public boolean isWifiOnly() {
-            return this.clientOptions.isWifiOnly();
-        }
-
-        @ReactMethod
-        public void setWifiOnly(boolean wifiOnly) {
-            this.clientOptions.setWifiOnly(wifiOnly);
-        }
-
-        @ReactMethod
-        public void setPartnerScriptId(String partnerScriptId) {
-            this.clientOptions.setPartnerScriptId(partnerScriptId);
-        }
-
-        @ReactMethod
-        public String getPartnerScriptId() {
-            return this.clientOptions.getPartnerScriptId();
-        }
-
-        @ReactMethod
-        public void setThemeColor(String color) {
-            this.clientOptions.setThemeColor(color);
-        }
-
-        @ReactMethod
-        public int getThemeColor() {
-            return this.clientOptions.getThemeColor();
-        }
-
-        @ReactMethod
-        public void disableSMSDataCollection() {
-            this.clientOptions.disableSMSDataCollection();
-        }
-
-        @ReactMethod
-        public void disableCallLogDataCollection() {
-            this.clientOptions.disableCallLogDataCollection();
-        }
-
-        @ReactMethod
-        public void disableContactDataCollection() {
-            this.clientOptions.disableContactDataCollection();
-        }
-
-        @ReactMethod
-        public void disableCalendarEventDataCollection() {
-            this.clientOptions.disableCalendarEventDataCollection();
-        }
-
-        @ReactMethod
-        public void disableInstalledAppDataCollection() {
-            this.clientOptions.disableInstalledAppDataCollection();
-        }
-
-        @ReactMethod
-        public void disableBrowserHistoryDataCollection() {
-            this.clientOptions.disableBrowserHistoryDataCollection();
-        }
-
-        @ReactMethod
-        public void disableLocationDataCollection() {
-            this.clientOptions.disableLocationDataCollection();
-        }
-
-        @ReactMethod
-        public void disableBattChargeDataCollection() {
-            this.clientOptions.disableBattChargeDataCollection();
-        }
-
-        @ReactMethod
-        public void disableGalleryMetaDataCollection() {
-            this.clientOptions.disableGalleryMetaDataCollection();
-        }
-
-        @ReactMethod
-        public void disableMediaMetaDataCollection() {
-            this.clientOptions.disableMediaMetaDataCollection();
-        }
-
-        @ReactMethod
-        public void disableSMSBodyCollection() {
-            this.clientOptions.disableSMSBodyCollection();
-        }
-
-        @ReactMethod
-        public void enablePhoneNumberHashing() {
-            this.clientOptions.enablePhoneNumberHashing();
-        }
-
-        @ReactMethod
-        public void enableContactsNameHashing() {
-            this.clientOptions.enableContactsNameHashing();
-        }
-
-        @ReactMethod
-        public void enableContactsEmailHashing() {
-            this.clientOptions.enableContactsEmailHashing();
-        }
-
-        @ReactMethod
-        public void enableCalendarOrganizerHashing() {
-            this.clientOptions.enableCalendarOrganizerHashing();
-        }
-
-        @ReactMethod
-        public void enableCalendarDisplayNameHashing() {
-            this.clientOptions.enableCalendarDisplayNameHashing();
-        }
-
-        @ReactMethod
-        public void enableCalendarEmailHashing() {
-            this.clientOptions.enableCalendarEmailHashing();
-        }
-
-        @ReactMethod
-        public boolean isEnableSMS() {
-            return this.clientOptions.isEnableSMS();
-        }
-
-        @ReactMethod
-        public boolean isEnableCallLog() {
-            return this.clientOptions.isEnableCallLog();
-        }
-
-        @ReactMethod
-        public boolean isEnableContact() {
-            return this.clientOptions.isEnableContact();
-        }
-
-        @ReactMethod
-        public boolean isEnableCalendarEvent() {
-            return this.clientOptions.isEnableCalendarEvent();
-        }
-
-        @ReactMethod
-        public boolean isEnableInstalledApp() {
-            return this.clientOptions.isEnableInstalledApp();
-        }
-
-        @ReactMethod
-        public boolean isEnableBrowserHistory() {
-            return this.clientOptions.isEnableBrowserHistory();
-        }
-
-        @ReactMethod
-        public boolean isEnableLocation() {
-            return this.clientOptions.isEnableLocation();
-        }
-
-        @ReactMethod
-        public boolean isEnableBatteryCharge() {
-            return this.clientOptions.isEnableBatteryCharge();
-        }
-
-        @ReactMethod
-        public boolean isEnableGalleryMetaData() {
-            return this.clientOptions.isEnableGalleryMetaData();
-        }
-
-        @ReactMethod
-        public boolean isEnableMediaMetaData() {
-            return this.clientOptions.isEnableMediaMetaData();
-        }
-
-        @ReactMethod
-        public boolean isEnableSMSBody() {
-            return this.clientOptions.isEnableSMSBody();
-        }
-
-        @ReactMethod
-        public boolean isEnablePhoneNumberHashing() {
-            return this.clientOptions.isEnablePhoneNumberHashing();
-        }
-
-        @ReactMethod
-        public boolean isEnableContactsNameHashing() {
-            return this.clientOptions.isEnableContactsNameHashing();
-        }
-
-        @ReactMethod
-        public boolean isEnableContactsEmailHashing() {
-            return this.clientOptions.isEnableContactsEmailHashing();
-        }
-
-        @ReactMethod
-        public boolean isEnableCalendarOrganizerHashing() {
-            return this.clientOptions.isEnableCalendarOrganizerHashing();
-        }
-
-        @ReactMethod
-        public boolean isEnableCalendarDisplayNameHashing() {
-            return this.clientOptions.isEnableCalendarDisplayNameHashing();
-        }
-
-        @ReactMethod
-        public boolean isEnableCalendarEmailHashing() {
-            return this.clientOptions.isEnableCalendarEmailHashing();
-        }
-
-        @ReactMethod
-        public void setApiGatewayUrl(String endPoint) {
-            this.clientOptions.setApiGatewayUrl(endPoint);
-        }
-
-        @ReactMethod
-        public void enableLogDisplay(boolean isEnable) {
-            this.clientOptions.enableLogDisplay(isEnable);
-        }
-
-        @java.lang.Override
-        @ReactMethod
-        public java.lang.String toString() {
-            return "RNClientOptions";
-        }
-    }
 }

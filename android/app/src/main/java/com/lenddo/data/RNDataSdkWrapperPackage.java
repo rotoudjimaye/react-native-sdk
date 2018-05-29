@@ -7,21 +7,18 @@ import com.facebook.react.uimanager.ViewManager;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ArrayList;
+import com.lenddo.mobile.core.Log;
 
 public class RNDataSdkWrapperPackage implements ReactPackage {
-  private List<String> partnerScriptIds, apiSecrets;
-
-    public RNDataSdkWrapperPackage(List<String> partnerScriptIds, List<String> apiSecrets){
-      this.partnerScriptIds = partnerScriptIds;
-      this.apiSecrets = apiSecrets;
-    }
+    private static final String TAG = "RNDataSdkWrapperPackage";
 
     @Override
     public List<NativeModule> createNativeModules(
             ReactApplicationContext reactContext) {
         List<NativeModule> modules = new ArrayList<>();
 
-        modules.add(new RNDataSdkWrapper(reactContext, partnerScriptIds, apiSecrets));
+        modules.add(new RNDataSdkWrapper(reactContext));
+        modules.add(new RNClientOptions(reactContext));
 
         return modules;
     }
