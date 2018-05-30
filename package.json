@@ -25,7 +25,9 @@
   "homepage": "https://github.com/Lenddo/react-native-sdk.git",
   "maintainers": [
     "Howard Lince",
-    "Adonis Lee Villamor"
+    "Adonis Lee Villamor",
+    "Neil Mosca",
+    "Patrick Buitre"
   ],
   "description": "A React-native component for Android Lenddo Data SDK [https://www.lenddo.com/documentation/data_sdk.html].",
   "main": "index.js",
