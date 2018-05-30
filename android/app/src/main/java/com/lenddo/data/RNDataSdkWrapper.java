@@ -2,7 +2,6 @@ package com.lenddo.data;
 
 
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.GuardedRunnable;
@@ -14,11 +13,13 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.lenddo.mobile.datasdk.AndroidData;
+import com.lenddo.mobile.datasdk.DataManager;
 import com.lenddo.mobile.datasdk.listeners.OnDataSendingCompleteCallback;
 import com.lenddo.mobile.datasdk.models.ApplicationPartnerData;
 import com.lenddo.mobile.datasdk.models.ClientOptions;
 import com.lenddo.mobile.datasdk.utils.AndroidDataUtils;
 import com.lenddo.mobile.core.LenddoCoreInfo;
+import com.lenddo.mobile.core.Log;
 
 import java.util.HashMap;
 import java.util.List;
@@ -39,19 +40,19 @@ public class RNDataSdkWrapper extends ReactContextBaseJavaModule {
 
     private static final String TAG = "RNDataSdkWrapper";
     private ReactApplicationContext reactContext;
-    private List<String> partnerScriptIds;
-    private List<String> apiSecrets;
     private String partnerScriptId;
     private String apiSecret;
 
-
-    public RNDataSdkWrapper(ReactApplicationContext reactContext, List<String> partnerScriptIds, List<String> apiSecrets) {
+    public RNDataSdkWrapper(ReactApplicationContext reactContext) {
         super(reactContext);
         Log.d(TAG, "RNDataSdkWrapper");
-        LenddoCoreInfo.initCoreInfo(reactContext);
         this.reactContext = reactContext;
-        this.partnerScriptIds = partnerScriptIds;
-        this.apiSecrets = apiSecrets;
+
+        partnerScriptId = LenddoCoreInfo.getCoreInfo(reactContext, LenddoCoreInfo.COREINFO_DATA_PARTNER_SCRIPT_ID);
+        apiSecret = LenddoCoreInfo.getCoreInfo(reactContext, LenddoCoreInfo.COREINFO_API_SECRET);
+
+        Log.d(TAG, "partnerScriptId: " + partnerScriptId);
+        Log.d(TAG, "apiSecret: " + apiSecret);
     }
 
     @ReactMethod
@@ -126,6 +127,9 @@ public class RNDataSdkWrapper extends ReactContextBaseJavaModule {
     public void clear() {
         Log.d(TAG, "clear");
         AndroidData.clear(reactContext);
+
+        // Clear is a demo method, re-init lenddo core info after clearing
+        LenddoCoreInfo.initCoreInfo(reactContext);
     }
 
     @ReactMethod
@@ -319,12 +323,13 @@ public class RNDataSdkWrapper extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void setup() {
-        AndroidData.setup(reactContext, partnerScriptIds.get(0), apiSecrets.get(0), null);
+        AndroidData.setup(reactContext, null);
     }
 
     @ReactMethod
-    public void setup(final Callback callback) {
-        ClientOptions clientOptions = new ClientOptions();
+    public void setupWithCallback(final Callback callback) {
+        Log.d(TAG, "setupWithCallback");
+        ClientOptions clientOptions = DataManager.getInstance().getClientOptions();
         clientOptions.registerDataSendingCompletionCallback(new OnDataSendingCompleteCallback() {
             @Override
             public void onDataSendingSuccess() {
@@ -374,124 +379,15 @@ public class RNDataSdkWrapper extends ReactContextBaseJavaModule {
                         });
             }
         });
-        AndroidData.setup(reactContext, partnerScriptIds.get(0), apiSecrets.get(0), clientOptions);
+
+        DataManager.getInstance().setClientOptions(clientOptions);
     }
 
     @ReactMethod
-    public void setup(String gatewayUrl, boolean wifiOnly,
-                      boolean enableLogDisplay, boolean enableSms,
-                      boolean enableCallLog, boolean enableContact,
-                      boolean enableCalendarEvent, boolean enableInstalledApp,
-                      boolean enableBrowserHistory, boolean enableLocation,
-                      boolean enableBattCharge, boolean enableGalleryMetaData,
-                      boolean enableSmsBody, boolean enablePhoneNumber,
-                      boolean enableContactsName, boolean enableContactsEmail,
-                      boolean enableCalendarOrganizer, boolean enableCalendarDisplayName,
-                      boolean enableCalendarEmail, final Callback callback) {
-        Log.d(TAG, "setup:: partnerScriptId:: " + partnerScriptId + ", apiSecret:: " + apiSecret);
-        Log.d(TAG, "setup:: gatewayUrl:: " + gatewayUrl);
-        Log.d(TAG, "setup:: wifiOnly:: " + wifiOnly);
-        Log.d(TAG, "setup:: enableLogDisplay:: " + enableLogDisplay);
-        Log.d(TAG, "setup:: enableSms:: " + enableSms);
-        Log.d(TAG, "setup:: enableCallLog:: " + enableCallLog);
-        Log.d(TAG, "setup:: enableContact:: " + enableContact);
-        Log.d(TAG, "setup:: enableCalendarEvent:: " + enableCalendarEvent);
-        Log.d(TAG, "setup:: enableInstalledApp:: " + enableInstalledApp);
-        Log.d(TAG, "setup:: enableBrowserHistory:: " + enableBrowserHistory);
-        Log.d(TAG, "setup:: enableLocation:: " + enableLocation);
-        Log.d(TAG, "setup:: enableBattCharge:: " + enableBattCharge);
-        Log.d(TAG, "setup:: enableGalleryMetaData:: " + enableGalleryMetaData);
-        Log.d(TAG, "setup:: enableSmsBody:: " + enableSmsBody);
-        Log.d(TAG, "setup:: enablePhoneNumber:: " + enablePhoneNumber);
-        Log.d(TAG, "setup:: enableContactsName:: " + enableContactsName);
-        Log.d(TAG, "setup:: enableContactsEmail:: " + enableContactsEmail);
-        Log.d(TAG, "setup:: enableCalendarOrganizer:: " + enableCalendarOrganizer);
-        Log.d(TAG, "setup:: enableCalendarDisplayName:: " + enableCalendarDisplayName);
-        Log.d(TAG, "setup:: enableCalendarEmail:: " + enableCalendarEmail);
-
-        ClientOptions clientOptions = new ClientOptions();
-
-        // Hostname (Gateway)
-        if (gatewayUrl != null) {
-            clientOptions.setApiGatewayUrl(gatewayUrl);
-        }
-
-        // Upload Mode
-        clientOptions.setWifiOnly(wifiOnly);
-
-        // Debug Logs
-        clientOptions.enableLogDisplay(enableLogDisplay);
-
-        // Data types
-        if (!enableSms) clientOptions.disableSMSDataCollection();
-        if (!enableCallLog) clientOptions.disableCallLogDataCollection();
-        if (!enableContact) clientOptions.disableContactDataCollection();
-        if (!enableCalendarEvent) clientOptions.disableCalendarEventDataCollection();
-        if (!enableInstalledApp) clientOptions.disableInstalledAppDataCollection();
-        if (!enableBrowserHistory) clientOptions.disableBrowserHistoryDataCollection();
-        if (!enableLocation) clientOptions.disableLocationDataCollection();
-        if (!enableBattCharge) clientOptions.disableBattChargeDataCollection();
-        if (!enableGalleryMetaData) clientOptions.disableGalleryMetaDataCollection();
-        // SMS Body Content
-        if (!enableSmsBody) clientOptions.disableSMSBodyCollection();
-        //Data Hashing
-        if (enablePhoneNumber) clientOptions.enablePhoneNumberHashing();
-        if (enableContactsName) clientOptions.enableContactsNameHashing();
-        if (enableContactsEmail) clientOptions.enableContactsEmailHashing();
-        if (enableCalendarOrganizer) clientOptions.enableCalendarOrganizerHashing();
-        if (enableCalendarDisplayName) clientOptions.enableCalendarDisplayNameHashing();
-        if (enableCalendarEmail) clientOptions.enableCalendarEmailHashing();
-
-        clientOptions.registerDataSendingCompletionCallback(new OnDataSendingCompleteCallback() {
-            @Override
-            public void onDataSendingSuccess() {
-                UiThreadUtil.runOnUiThread(
-                        new GuardedRunnable(reactContext) {
-                            @Override
-                            public void runGuarded() {
-                                try {
-                                    Log.d(TAG, "Data Sending Callback: Success!");
-                                    callback.invoke(SUCCESS, "Success!");
-                                } catch (Exception e) {
-                                    //Catches the exception: java.lang.RuntimeException·Illegal callback invocation from native module
-                                }
-                            }
-                        });
-            }
-
-            @Override
-            public void onDataSendingError(final int statusCode, final String errorMessage) {
-                UiThreadUtil.runOnUiThread(
-                        new GuardedRunnable(reactContext) {
-                            @Override
-                            public void runGuarded() {
-                                try {
-                                    Log.d(TAG, "Data Sending Callback: Error: " + errorMessage);
-                                    callback.invoke(ERROR, "Error: " + errorMessage, statusCode);
-                                } catch (Exception e) {
-                                    //Catches the exception: java.lang.RuntimeException·Illegal callback invocation from native module
-                                }
-                            }
-                        });
-            }
-
-            @Override
-            public void onDataSendingFailed(final Throwable t) {
-                UiThreadUtil.runOnUiThread(
-                        new GuardedRunnable(reactContext) {
-                            @Override
-                            public void runGuarded() {
-                                try {
-                                    Log.d(TAG, "Data Sending Callback: Failed: " + t.getMessage());
-                                    callback.invoke(FAIL, "Failed: " + t.getMessage());
-                                } catch (Exception e) {
-                                    //Catches the exception: java.lang.RuntimeException·Illegal callback invocation from native module
-                                }
-                            }
-                        });
-            }
-        });
-        AndroidData.setup(reactContext, partnerScriptId, apiSecret, clientOptions);
+    public void setupWithClientOptions() {
+        Log.d(TAG, "setupWithClientOptions");
+        ClientOptions clientOptions = RNClientOptions.clientOptions;
+        DataManager.getInstance().setClientOptions(clientOptions);
     }
 
     @ReactMethod
@@ -573,16 +469,24 @@ public class RNDataSdkWrapper extends ReactContextBaseJavaModule {
 
 
     @ReactMethod
-    public void setPartnerScriptId(int index) {
-        Log.d(TAG, "setPartnerScriptId: " + index);
-        partnerScriptId = partnerScriptIds.get(index);
+    public void setPartnerScriptId(String partnerScriptId) {
+        this.partnerScriptId = partnerScriptId;
+        LenddoCoreInfo.setCoreInfo(reactContext, LenddoCoreInfo.COREINFO_DATA_PARTNER_SCRIPT_ID, partnerScriptId);
+        Log.d(TAG, "setPartnerScriptId: " + partnerScriptId);
     }
 
 
     @ReactMethod
-    public void setApiSecret(int index) {
-        Log.d(TAG, "setApiSecret: " + index);
-        apiSecret = apiSecrets.get(index);
+    public void setApiSecret(String apiSecret) {
+        this.apiSecret = apiSecret;
+        LenddoCoreInfo.setCoreInfo(reactContext, LenddoCoreInfo.COREINFO_API_SECRET, apiSecret);
+        Log.d(TAG, "setApiSecret: " + apiSecret);
+    }
+
+    @java.lang.Override
+    @ReactMethod
+    public java.lang.String toString() {
+        return "RNDataSdkWrapper";
     }
 
 }
