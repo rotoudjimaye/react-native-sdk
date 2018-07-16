@@ -1,4 +1,4 @@
-package com.lenddo.data;
+package com.lenddo.mobile.data;
 
 
 import android.text.TextUtils;
