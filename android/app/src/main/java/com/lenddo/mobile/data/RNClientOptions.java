@@ -28,13 +28,31 @@ import java.util.Map;
 public class RNClientOptions extends ReactContextBaseJavaModule {
     private static final String TAG = "RNClientOptions";
     private Callback callback;
-    public static ClientOptions clientOptions;
+    private ClientOptions clientOptions;
+    private static RNClientOptions mInstance = null;
+
+    public static synchronized void initClientOptions(ReactApplicationContext reactContext) {
+        if (mInstance == null) {
+            mInstance = new RNClientOptions(reactContext);
+        }
+    }
+
+    public static synchronized RNClientOptions getInstance() {
+        if (mInstance == null){ //if there is no instance available... create new one
+            throw new NullPointerException("Call initClientOptions before calling getInstance");
+        }
+        return mInstance;
+    }
 
     public RNClientOptions(ReactApplicationContext reactContext) {
         super(reactContext);
 
         Log.d(TAG, "RNClientOptions");
         this.clientOptions = new ClientOptions();
+    }
+
+    public ClientOptions getClientOptions() {
+        return clientOptions;
     }
 
     @Override
@@ -50,6 +68,11 @@ public class RNClientOptions extends ReactContextBaseJavaModule {
         } catch (Exception e) {
             Log.e(TAG, "Error: ", e);
         }
+    }
+
+    @ReactMethod
+    public void refreshClientOptions() {
+        this.clientOptions = new ClientOptions();
     }
 
     @ReactMethod

@@ -386,7 +386,7 @@ public class RNDataSdkWrapper extends ReactContextBaseJavaModule {
     @ReactMethod
     public void setupWithClientOptions() {
         Log.d(TAG, "setupWithClientOptions");
-        ClientOptions clientOptions = RNClientOptions.clientOptions;
+        ClientOptions clientOptions = RNClientOptions.getInstance().getClientOptions();
         DataManager.getInstance().setClientOptions(clientOptions);
     }
 
