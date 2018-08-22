@@ -125,7 +125,7 @@ public class RNDataSdkWrapper extends ReactContextBaseJavaModule {
 
         // Clear is a demo method, re-init lenddo core info after clearing
         LenddoCoreInfo.initCoreInfo(reactContext);
-        LenddoCoreInfo.setDataPartnerScriptId(getContext(), this.partnerScriptId);
+        LenddoCoreInfo.setDataPartnerScriptId(reactContext, this.partnerScriptId);
     }
 
     @ReactMethod
@@ -376,14 +376,14 @@ public class RNDataSdkWrapper extends ReactContextBaseJavaModule {
             }
         });
 
-        DataManager.getInstance().setClientOptions(clientOptions);
+        AndroidData.setup(reactContext, clientOptions);
     }
 
     @ReactMethod
     public void setupWithClientOptions() {
         Log.d(TAG, "setupWithClientOptions");
         ClientOptions clientOptions = RNClientOptions.getInstance().getClientOptions();
-        DataManager.getInstance().setClientOptions(clientOptions);
+        AndroidData.setup(reactContext, clientOptions);
     }
 
     @ReactMethod
@@ -441,18 +441,6 @@ public class RNDataSdkWrapper extends ReactContextBaseJavaModule {
         AndroidDataUtils.setApplicationId(reactContext, applicationId);
     }
 
-
-    @ReactMethod
-    public void getPartnerScriptId(Callback callback) {
-        Log.d(TAG, "getPartnerScriptId");
-        try {
-            callback.invoke(partnerScriptId);
-        } catch (Exception e) {
-
-        }
-    }
-
-
     @ReactMethod
     public void getApiSecret(Callback callback) {
         Log.d(TAG, "getApiSecret");
@@ -467,7 +455,7 @@ public class RNDataSdkWrapper extends ReactContextBaseJavaModule {
     @ReactMethod
     public void setPartnerScriptId(String partnerScriptId) {
         this.partnerScriptId = partnerScriptId;
-        LenddoCoreInfo.setDataPartnerScriptId(getContext(), this.partnerScriptId);
+        LenddoCoreInfo.setDataPartnerScriptId(reactContext, this.partnerScriptId);
         Log.d(TAG, "setPartnerScriptId: " + partnerScriptId);
     }
 

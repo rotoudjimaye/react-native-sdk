@@ -114,7 +114,7 @@ public class RNOnboardingSdkWrapper extends ReactContextBaseJavaModule implement
     @ReactMethod
     public void setPartnerScriptId(String partnerScriptId) {
         this.partnerScriptId = partnerScriptId;
-        LenddoCoreInfo.setOnboardingPartnerScriptId(getContext(), this.partnerScriptId);
+        LenddoCoreInfo.setOnboardingPartnerScriptId(reactContext, this.partnerScriptId);
         Log.d(TAG, "setPartnerScriptId: " + partnerScriptId);
     }
 
