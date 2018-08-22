@@ -35,6 +35,7 @@ public class RNOnboardingSdkWrapper extends ReactContextBaseJavaModule implement
     private static RNOnboardingSdkWrapper mInstance = null;
     private ReactApplicationContext reactContext;
     private UIHelper uiHelper;
+    private String partnerScriptId;
     private String apiRegion;
     private boolean enableAssistedPsychometrics;
     private boolean enableNativeGoogle;
@@ -108,6 +109,23 @@ public class RNOnboardingSdkWrapper extends ReactContextBaseJavaModule implement
         this.customBackPopup.message = message;
         this.customBackPopup.okButtonLabel = okButtonLabel;
         this.customBackPopup.cancelButtonLabel = cancelButtonLabel;
+    }
+
+    @ReactMethod
+    public void setPartnerScriptId(String partnerScriptId) {
+        this.partnerScriptId = partnerScriptId;
+        LenddoCoreInfo.setOnboardingPartnerScriptId(getContext(), this.partnerScriptId);
+        Log.d(TAG, "setPartnerScriptId: " + partnerScriptId);
+    }
+
+    @ReactMethod
+    public void getPartnerScriptId(Callback callback) {
+        Log.d(TAG, "getPartnerScriptId: " + this.partnerScriptId);
+        try {
+            callback.invoke(this.partnerScriptId);
+        } catch (Exception e) {
+            Log.e(TAG, "Error: ", e);
+        }
     }
 
     @ReactMethod

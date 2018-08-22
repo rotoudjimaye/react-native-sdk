@@ -42,17 +42,12 @@ public class RNDataSdkWrapper extends ReactContextBaseJavaModule {
     private ReactApplicationContext reactContext;
     private String partnerScriptId;
     private String apiSecret;
+    private String partnerId;
 
     public RNDataSdkWrapper(ReactApplicationContext reactContext) {
         super(reactContext);
         Log.d(TAG, "RNDataSdkWrapper");
         this.reactContext = reactContext;
-
-        partnerScriptId = LenddoCoreInfo.getCoreInfo(reactContext, LenddoCoreInfo.COREINFO_DATA_PARTNER_SCRIPT_ID);
-        apiSecret = LenddoCoreInfo.getCoreInfo(reactContext, LenddoCoreInfo.COREINFO_API_SECRET);
-
-        Log.d(TAG, "partnerScriptId: " + partnerScriptId);
-        Log.d(TAG, "apiSecret: " + apiSecret);
     }
 
     @ReactMethod
@@ -130,6 +125,7 @@ public class RNDataSdkWrapper extends ReactContextBaseJavaModule {
 
         // Clear is a demo method, re-init lenddo core info after clearing
         LenddoCoreInfo.initCoreInfo(reactContext);
+        LenddoCoreInfo.setDataPartnerScriptId(getContext(), this.partnerScriptId);
     }
 
     @ReactMethod
@@ -471,16 +467,31 @@ public class RNDataSdkWrapper extends ReactContextBaseJavaModule {
     @ReactMethod
     public void setPartnerScriptId(String partnerScriptId) {
         this.partnerScriptId = partnerScriptId;
-        LenddoCoreInfo.setCoreInfo(reactContext, LenddoCoreInfo.COREINFO_DATA_PARTNER_SCRIPT_ID, partnerScriptId);
+        LenddoCoreInfo.setDataPartnerScriptId(getContext(), this.partnerScriptId);
         Log.d(TAG, "setPartnerScriptId: " + partnerScriptId);
     }
 
+    @ReactMethod
+    public void getPartnerScriptId(Callback callback) {
+        Log.d(TAG, "getPartnerScriptId: " + this.partnerScriptId);
+        try {
+            callback.invoke(this.partnerScriptId);
+        } catch (Exception e) {
+            Log.e(TAG, "Error: ", e);
+        }
+    }
 
     @ReactMethod
     public void setApiSecret(String apiSecret) {
         this.apiSecret = apiSecret;
         LenddoCoreInfo.setCoreInfo(reactContext, LenddoCoreInfo.COREINFO_API_SECRET, apiSecret);
         Log.d(TAG, "setApiSecret: " + apiSecret);
+    }
+
+    @ReactMethod
+    public void setPartnerId(String partnerId) {
+        this.partnerId = partnerId;
+        Log.d(TAG, "setPartnerId: " + partnerId);
     }
 
     @java.lang.Override
