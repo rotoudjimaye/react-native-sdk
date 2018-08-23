@@ -35,6 +35,7 @@ public class RNOnboardingSdkWrapper extends ReactContextBaseJavaModule implement
     private static RNOnboardingSdkWrapper mInstance = null;
     private ReactApplicationContext reactContext;
     private UIHelper uiHelper;
+    private String partnerScriptId;
     private String apiRegion;
     private boolean enableAssistedPsychometrics;
     private boolean enableNativeGoogle;
@@ -79,6 +80,13 @@ public class RNOnboardingSdkWrapper extends ReactContextBaseJavaModule implement
     }
 
     @ReactMethod
+    public void setAuthorizeApiEndpoint(String authorizeApiEndpoint) {
+        if (!authorizeApiEndpoint.isEmpty()) {
+            LenddoConstants.AUTHORIZE_DATA_ENDPOINT = authorizeApiEndpoint;
+        }
+    }
+
+    @ReactMethod
     public void setEnableNativeGoogle(boolean enableNativeGoogle) {
         this.enableNativeGoogle = enableNativeGoogle;
     }
@@ -108,6 +116,23 @@ public class RNOnboardingSdkWrapper extends ReactContextBaseJavaModule implement
         this.customBackPopup.message = message;
         this.customBackPopup.okButtonLabel = okButtonLabel;
         this.customBackPopup.cancelButtonLabel = cancelButtonLabel;
+    }
+
+    @ReactMethod
+    public void setPartnerScriptId(String partnerScriptId) {
+        this.partnerScriptId = partnerScriptId;
+        LenddoCoreInfo.setOnboardingPartnerScriptId(reactContext, this.partnerScriptId);
+        Log.d(TAG, "setPartnerScriptId: " + partnerScriptId);
+    }
+
+    @ReactMethod
+    public void getPartnerScriptId(Callback callback) {
+        Log.d(TAG, "getPartnerScriptId: " + this.partnerScriptId);
+        try {
+            callback.invoke(this.partnerScriptId);
+        } catch (Exception e) {
+            Log.e(TAG, "Error: ", e);
+        }
     }
 
     @ReactMethod
@@ -195,32 +220,29 @@ public class RNOnboardingSdkWrapper extends ReactContextBaseJavaModule implement
 
         if (!this.apiRegion.isEmpty()) {
             this.uiHelper.setApiRegion(apiRegion);
-            this.apiRegion = "";
         }
 
         if (this.enableNativeFacebook) {
             if(facebookSignInHelper != null) {
                 this.uiHelper.addFacebookSignIn(facebookSignInHelper);
             }
-            this.enableNativeFacebook = false;
         }
 
         if (this.enableNativeGoogle) {
             if(googleSignInHelper != null) {
                 this.uiHelper.addGoogleSignIn(googleSignInHelper);
             }
-            this.enableNativeGoogle = false;
         }
 
-        this.uiHelper.setAssistedPsychometrics(this.enableAssistedPsychometrics);
-        this.enableAssistedPsychometrics = false;
+        if (this.enableAssistedPsychometrics) {
+            this.uiHelper.setAssistedPsychometrics(true);
+        }
 
         if (this.customBackPopup.useCustomBackPopup) {
             this.uiHelper.customizeBackPopup(this.customBackPopup.title, this.customBackPopup.message, this.customBackPopup.okButtonLabel, this.customBackPopup.cancelButtonLabel);
-            this.customBackPopup.useCustomBackPopup = false;
         }
 
-        UIHelper.showAuthorize(getCurrentActivity(), this.uiHelper);
+        uiHelper.showAuthorize();
     }
 
     @ReactMethod
@@ -279,6 +301,8 @@ public class RNOnboardingSdkWrapper extends ReactContextBaseJavaModule implement
         public String okButtonLabel;
         public String cancelButtonLabel;
 
-        public CustomBackPopup() {}
+        public CustomBackPopup() {
+            this.useCustomBackPopup = false;
+        }
     }
 }

@@ -68,11 +68,6 @@ public class RNFormDataCollector extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void setPartnerScriptId(String partnerScriptId) {
-        this.formDataCollector.setPartnerScriptId(partnerScriptId);
-    }
-
-    @ReactMethod
     public void setApplicationId(String applicationId) {
         this.formDataCollector.setApplicationId(applicationId);
     }
