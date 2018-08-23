@@ -403,7 +403,7 @@ public class MainApplication extends Application implements ReactApplication {
 ```java
 package lenddo.com.lenddoconnect;
 
-import com.lenddo.mobile.data.RNDataSdkWrapperPackage; // << import react-module package
+import com.lenddo.mobile.onboarding.RNOnboardingSdkWrapperPackage; // << import react-module package
 // ... other imports
 
 public class MainApplication extends Application implements ReactApplication {
@@ -416,11 +416,15 @@ public class MainApplication extends Application implements ReactApplication {
 
         @Override
         protected List<ReactPackage> getPackages() {
+            RNOnboardingSdkWrapperPackage rnOnboardingSdkWrapperPackage = new RNOnboardingSdkWrapperPackage();
+            // rnOnboardingSdkWrapperPackage.setGoogleSignInHelper(new GoogleSignInHelper()); // Optional for native gmail sign-in
+            // rnOnboardingSdkWrapperPackage.setFacebookSignInHelper(new FacebookSignInHelper()); // Optional for native facebook login
+
             return Arrays.<ReactPackage>asList(
                     new MainReactPackage(),
                     new RNCollapsingToolbarPackage(),
                     new RNNestedScrollViewPackage(),
-                    new RNDataSdkWrapperPackage() //<--- Add wrapper package here
+                    rnOnboardingSdkWrapperPackage //<--- Add wrapper package here
             );
         }
 
