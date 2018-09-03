@@ -28,13 +28,31 @@ import java.util.Map;
 public class RNClientOptions extends ReactContextBaseJavaModule {
     private static final String TAG = "RNClientOptions";
     private Callback callback;
-    public static ClientOptions clientOptions;
+    private ClientOptions clientOptions;
+    private static RNClientOptions mInstance = null;
+
+    public static synchronized void initClientOptions(ReactApplicationContext reactContext) {
+        if (mInstance == null) {
+            mInstance = new RNClientOptions(reactContext);
+        }
+    }
+
+    public static synchronized RNClientOptions getInstance() {
+        if (mInstance == null){ //if there is no instance available... create new one
+            throw new NullPointerException("Call initClientOptions before calling getInstance");
+        }
+        return mInstance;
+    }
 
     public RNClientOptions(ReactApplicationContext reactContext) {
         super(reactContext);
 
         Log.d(TAG, "RNClientOptions");
         this.clientOptions = new ClientOptions();
+    }
+
+    public ClientOptions getClientOptions() {
+        return clientOptions;
     }
 
     @Override
@@ -50,6 +68,11 @@ public class RNClientOptions extends ReactContextBaseJavaModule {
         } catch (Exception e) {
             Log.e(TAG, "Error: ", e);
         }
+    }
+
+    @ReactMethod
+    public void refreshClientOptions() {
+        this.clientOptions = new ClientOptions();
     }
 
     @ReactMethod
@@ -78,21 +101,6 @@ public class RNClientOptions extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void getPartnerId(Callback callback) {
-        Log.d(TAG, "getPartnerId");
-        try {
-            callback.invoke(this.clientOptions.getPartnerId());
-        } catch (Exception e) {
-
-        }
-    }
-
-    @ReactMethod
-    public void setPartnerId(String partnerId) {
-        this.clientOptions.setPartnerId(partnerId);
-    }
-
-    @ReactMethod
     public void isWifiOnly(Callback callback) {
         Log.d(TAG, "isWifiOnly: " + this.clientOptions.isWifiOnly());
         try {
@@ -105,21 +113,6 @@ public class RNClientOptions extends ReactContextBaseJavaModule {
     @ReactMethod
     public void setWifiOnly(boolean wifiOnly) {
         this.clientOptions.setWifiOnly(wifiOnly);
-    }
-
-    @ReactMethod
-    public void setPartnerScriptId(String partnerScriptId) {
-        this.clientOptions.setPartnerScriptId(partnerScriptId);
-    }
-
-    @ReactMethod
-    public void getPartnerScriptId(Callback callback) {
-        Log.d(TAG, "getPartnerScriptId: " + this.clientOptions.getPartnerScriptId());
-        try {
-            callback.invoke(this.clientOptions.getPartnerScriptId());
-        } catch (Exception e) {
-
-        }
     }
 
     @ReactMethod
@@ -185,6 +178,50 @@ public class RNClientOptions extends ReactContextBaseJavaModule {
     @ReactMethod
     public void disableMediaMetaDataCollection() {
         this.clientOptions.disableMediaMetaDataCollection();
+    }
+
+    @ReactMethod
+    public void disableTelephonyInfoDataCollection() {
+        this.clientOptions.disableTelephonyInfoDataCollection();
+    }
+
+    @ReactMethod
+    public void disableStoredFilesInformationCollection() {
+        this.clientOptions.disableStoredFilesInformationCollection();
+    }
+
+    @ReactMethod
+    public void disableSensorsCollection() {
+        this.clientOptions.disableSensorsCollection();
+    }
+
+    @ReactMethod
+    public void disableLauncherAppsCollection() {
+        this.clientOptions.disableLauncherAppsCollection();
+    }
+
+    @ReactMethod
+    public void disableWifiInfoCollection() {
+        this.clientOptions.disableWifiInfoCollection();
+    }
+
+    @ReactMethod
+    public void disableBluetoothInfoCollection() {
+        this.clientOptions.disableBluetoothInfoCollection();
+    }
+
+    @ReactMethod
+    public void disableAccountsInfoCollection() {
+        this.clientOptions.disableAccountsInfoCollection();
+    }
+
+    @ReactMethod
+    public void disableGmailLabelsInfoCollection() {
+        this.clientOptions.disableGmailLabelsInfoCollection();
+    }
+    @ReactMethod
+    public void disablePeriodicalDataGathering() {
+        this.clientOptions.disablePeriodicalDataGathering();
     }
 
     @ReactMethod
@@ -317,6 +354,96 @@ public class RNClientOptions extends ReactContextBaseJavaModule {
         Log.d(TAG, "isEnableMediaMetaData: " + this.clientOptions.isEnableMediaMetaData());
         try {
             callback.invoke(this.clientOptions.isEnableMediaMetaData());
+        } catch (Exception e) {
+            Log.e(TAG, "Error: ", e);
+        }
+    }
+
+    @ReactMethod
+    public void isEnableTelephonyInformation(Callback callback) {
+        Log.d(TAG, "isEnableTelephonyInformation: " + this.clientOptions.isEnableTelephonyInformation());
+        try {
+            callback.invoke(this.clientOptions.isEnableTelephonyInformation());
+        } catch (Exception e) {
+            Log.e(TAG, "Error: ", e);
+        }
+    }
+
+    @ReactMethod
+    public void isEnableStoredFilesInformation(Callback callback) {
+        Log.d(TAG, "isEnableStoredFilesInformation: " + this.clientOptions.isEnableStoredFilesInformation());
+        try {
+            callback.invoke(this.clientOptions.isEnableStoredFilesInformation());
+        } catch (Exception e) {
+            Log.e(TAG, "Error: ", e);
+        }
+    }
+
+    @ReactMethod
+    public void isEnableSensors(Callback callback) {
+        Log.d(TAG, "isEnableSensors: " + this.clientOptions.isEnableSensors());
+        try {
+            callback.invoke(this.clientOptions.isEnableSensors());
+        } catch (Exception e) {
+            Log.e(TAG, "Error: ", e);
+        }
+    }
+
+    @ReactMethod
+    public void isEnableLauncherApps(Callback callback) {
+        Log.d(TAG, "isEnableLauncherApps: " + this.clientOptions.isEnableLauncherApps());
+        try {
+            callback.invoke(this.clientOptions.isEnableLauncherApps());
+        } catch (Exception e) {
+            Log.e(TAG, "Error: ", e);
+        }
+    }
+
+    @ReactMethod
+    public void isEnableWifiInfo(Callback callback) {
+        Log.d(TAG, "isEnableWifiInfo: " + this.clientOptions.isEnableWifiInfo());
+        try {
+            callback.invoke(this.clientOptions.isEnableWifiInfo());
+        } catch (Exception e) {
+            Log.e(TAG, "Error: ", e);
+        }
+    }
+
+    @ReactMethod
+    public void isEnableBluetoothInfo(Callback callback) {
+        Log.d(TAG, "isEnableBluetoothInfo: " + this.clientOptions.isEnableBluetoothInfo());
+        try {
+            callback.invoke(this.clientOptions.isEnableBluetoothInfo());
+        } catch (Exception e) {
+            Log.e(TAG, "Error: ", e);
+        }
+    }
+
+    @ReactMethod
+    public void isEnableAccountsInfo(Callback callback) {
+        Log.d(TAG, "isEnableAccountsInfo: " + this.clientOptions.isEnableAccountsInfo());
+        try {
+            callback.invoke(this.clientOptions.isEnableAccountsInfo());
+        } catch (Exception e) {
+            Log.e(TAG, "Error: ", e);
+        }
+    }
+
+    @ReactMethod
+    public void isEnableGmailLabelsInfo(Callback callback) {
+        Log.d(TAG, "isEnableGmailLabelsInfo: " + this.clientOptions.isEnableGmailLabelsInfo());
+        try {
+            callback.invoke(this.clientOptions.isEnableGmailLabelsInfo());
+        } catch (Exception e) {
+            Log.e(TAG, "Error: ", e);
+        }
+    }
+
+    @ReactMethod
+    public void isEnablePeriodicalData(Callback callback) {
+        Log.d(TAG, "isEnablePeriodicalData: " + this.clientOptions.isEnablePeriodicalData());
+        try {
+            callback.invoke(this.clientOptions.isEnablePeriodicalData());
         } catch (Exception e) {
             Log.e(TAG, "Error: ", e);
         }
