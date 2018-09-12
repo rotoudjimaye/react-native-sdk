@@ -22,6 +22,7 @@ import com.google.gson.JsonParser;
 import com.lenddo.mobile.core.LenddoCoreInfo;
 import com.lenddo.mobile.core.Log;
 import com.lenddo.mobile.onboardingsdk.client.LenddoEventListener;
+import com.lenddo.mobile.onboardingsdk.client.LenddoConstants;
 import com.lenddo.mobile.onboardingsdk.utils.UIHelper;
 import com.lenddo.mobile.onboardingsdk.models.FormDataCollector;
 import java.util.HashMap;
