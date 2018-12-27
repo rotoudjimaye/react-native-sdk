@@ -210,6 +210,22 @@ public class RNDataSdkWrapper extends ReactContextBaseJavaModule {
         if (callback != null) {
             AndroidData.sendPartnerApplicationData(reactContext, payload, new OnDataSendingCompleteCallback() {
                 @Override
+                public void onDataSendingStart() {
+                    UiThreadUtil.runOnUiThread(
+                            new GuardedRunnable(reactContext) {
+                                @Override
+                                public void runGuarded() {
+                                    try {
+                                        Log.d(TAG, "Send Partner Data Callback: Started!");
+                                        callback.invoke(SUCCESS, "Started!");
+                                    } catch (Exception e) {
+                                        //Catches the exception: java.lang.RuntimeException·Illegal callback invocation from native module
+                                    }
+                                }
+                            });
+                }
+                
+                @Override
                 public void onDataSendingSuccess() {
                     UiThreadUtil.runOnUiThread(
                             new GuardedRunnable(reactContext) {
@@ -267,6 +283,22 @@ public class RNDataSdkWrapper extends ReactContextBaseJavaModule {
         Log.d(TAG, "sendPartnerApplicationData:: payload:: " + payload);
         if (callback != null) {
             AndroidData.sendPartnerApplicationData(reactContext, payload, new OnDataSendingCompleteCallback() {
+                @Override
+                public void onDataSendingStart() {
+                    UiThreadUtil.runOnUiThread(
+                            new GuardedRunnable(reactContext) {
+                                @Override
+                                public void runGuarded() {
+                                    try {
+                                        Log.d(TAG, "Send Partner Data Callback: Started!");
+                                        callback.invoke(SUCCESS, "Started!");
+                                    } catch (Exception e) {
+                                        //Catches the exception: java.lang.RuntimeException·Illegal callback invocation from native module
+                                    }
+                                }
+                            });
+                }
+
                 @Override
                 public void onDataSendingSuccess() {
                     UiThreadUtil.runOnUiThread(
@@ -343,6 +375,22 @@ public class RNDataSdkWrapper extends ReactContextBaseJavaModule {
         Log.d(TAG, "setupWithCallback");
         ClientOptions clientOptions = DataManager.getInstance().getClientOptions();
         clientOptions.registerDataSendingCompletionCallback(new OnDataSendingCompleteCallback() {
+            @Override
+            public void onDataSendingStart() {
+                UiThreadUtil.runOnUiThread(
+                        new GuardedRunnable(reactContext) {
+                            @Override
+                            public void runGuarded() {
+                                try {
+                                    Log.d(TAG, "Data Sending Callback: Started!");
+                                    callback.invoke(SUCCESS, "Started!");
+                                } catch (Exception e) {
+                                    //Catches the exception: java.lang.RuntimeException·Illegal callback invocation from native module
+                                }
+                            }
+                        });
+            }
+            
             @Override
             public void onDataSendingSuccess() {
                 UiThreadUtil.runOnUiThread(
