@@ -16,7 +16,9 @@ import com.lenddo.mobile.datasdk.AndroidData;
 import com.lenddo.mobile.datasdk.listeners.OnDataSendingCompleteCallback;
 import com.lenddo.mobile.datasdk.models.ApplicationPartnerData;
 import com.lenddo.mobile.datasdk.models.ClientOptions;
+import com.lenddo.mobile.datasdk.mpermission.MPermissionActivity;
 import com.lenddo.mobile.datasdk.utils.AndroidDataUtils;
+import com.lenddo.mobile.datasdk.DataManager;
 import com.lenddo.mobile.core.LenddoCoreInfo;
 import com.lenddo.mobile.core.Log;
 
@@ -48,7 +50,7 @@ public class RNClientOptions extends ReactContextBaseJavaModule {
         super(reactContext);
 
         Log.d(TAG, "RNClientOptions");
-        this.clientOptions = new ClientOptions();
+        refreshClientOptions();
     }
 
     public ClientOptions getClientOptions() {
@@ -72,7 +74,13 @@ public class RNClientOptions extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void refreshClientOptions() {
+        int[] customMPermissionLayout = DataManager.getClientOptions().getCustomMPermissionLayout();
+
         this.clientOptions = new ClientOptions();
+        this.setCustomMPermissionLayout(customMPermissionLayout[MPermissionActivity.INDEX_LAYOUT_INTRO], 
+            customMPermissionLayout[MPermissionActivity.INDEX_LAYOUT_RATIONALE], 
+            customMPermissionLayout[MPermissionActivity.INDEX_LAYOUT_FEEDBACK], 
+            customMPermissionLayout[MPermissionActivity.INDEX_LAYOUT_THANKYOU]);
     }
 
     @ReactMethod
