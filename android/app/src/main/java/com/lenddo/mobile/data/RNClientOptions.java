@@ -74,7 +74,7 @@ public class RNClientOptions extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void refreshClientOptions() {
-        int[] customMPermissionLayout = DataManager.getClientOptions().getCustomMPermissionLayout();
+        int[] customMPermissionLayout = DataManager.getInstance().getClientOptions().getCustomMPermissionLayout();
 
         this.clientOptions = new ClientOptions();
         this.setCustomMPermissionLayout(customMPermissionLayout[MPermissionActivity.INDEX_LAYOUT_INTRO], 

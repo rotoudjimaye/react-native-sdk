@@ -66,7 +66,7 @@ public class RNDataSdkWrapper extends ReactContextBaseJavaModule {
                     WritableMap params = Arguments.createMap();
                     params.putInt("action", STARTED);
                     params.putInt("statusCode", 201);
-                    params.putInt("method", "setProviderAccessToken");
+                    params.putString("method", "setProviderAccessToken");
                     reactContext
                             .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
                             .emit("onDataSendingStart", params);
@@ -77,7 +77,7 @@ public class RNDataSdkWrapper extends ReactContextBaseJavaModule {
                     WritableMap params = Arguments.createMap();
                     params.putInt("action", SUCCESS);
                     params.putInt("statusCode", 200);
-                    params.putInt("method", "setProviderAccessToken");
+                    params.putString("method", "setProviderAccessToken");
                     reactContext
                             .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
                             .emit("onDataSendingSuccess", params);
@@ -101,7 +101,7 @@ public class RNDataSdkWrapper extends ReactContextBaseJavaModule {
                     params.putInt("action", ERROR);
                     params.putString("status", errorMessage);
                     params.putInt("statusCode", statusCode);
-                    params.putInt("method", "setProviderAccessToken");
+                    params.putString("method", "setProviderAccessToken");
                     reactContext
                         .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
                         .emit("onDataSendingError", params);
@@ -125,7 +125,7 @@ public class RNDataSdkWrapper extends ReactContextBaseJavaModule {
                     params.putInt("action", FAIL);
                     params.putString("status", t.getMessage());
                     params.putInt("statusCode", 500);
-                    params.putInt("method", "setProviderAccessToken");
+                    params.putString("method", "setProviderAccessToken");
                     reactContext
                         .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
                         .emit("onDataSendingFailed", params);
@@ -242,7 +242,7 @@ public class RNDataSdkWrapper extends ReactContextBaseJavaModule {
                     WritableMap params = Arguments.createMap();
                     params.putInt("action", STARTED);
                     params.putInt("statusCode", 201);
-                    params.putInt("method", "sendPartnerApplicationData");
+                    params.putString("method", "sendPartnerApplicationData");
                     reactContext
                             .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
                             .emit("onDataSendingStart", params);
@@ -253,7 +253,7 @@ public class RNDataSdkWrapper extends ReactContextBaseJavaModule {
                     WritableMap params = Arguments.createMap();
                     params.putInt("action", SUCCESS);
                     params.putInt("statusCode", 200);
-                    params.putInt("method", "sendPartnerApplicationData");
+                    params.putString("method", "sendPartnerApplicationData");
                     reactContext
                             .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
                             .emit("onDataSendingSuccess", params);
@@ -278,7 +278,7 @@ public class RNDataSdkWrapper extends ReactContextBaseJavaModule {
                     params.putInt("action", ERROR);
                     params.putString("status", errorMessage);
                     params.putInt("statusCode", statusCode);
-                    params.putInt("method", "sendPartnerApplicationData");
+                    params.putString("method", "sendPartnerApplicationData");
                     reactContext
                         .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
                         .emit("onDataSendingError", params);
@@ -303,7 +303,7 @@ public class RNDataSdkWrapper extends ReactContextBaseJavaModule {
                     params.putInt("action", FAIL);
                     params.putString("status", t.getMessage());
                     params.putInt("statusCode", 500);
-                    params.putInt("method", "sendPartnerApplicationData");
+                    params.putString("method", "sendPartnerApplicationData");
                     reactContext
                         .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
                         .emit("onDataSendingFailed", params);
@@ -365,7 +365,7 @@ public class RNDataSdkWrapper extends ReactContextBaseJavaModule {
                 WritableMap params = Arguments.createMap();
                 params.putInt("action", STARTED);
                 params.putInt("statusCode", 201);
-                params.putInt("method", "registerDataSendingCompletionCallback");
+                params.putString("method", "registerDataSendingCompletionCallback");
                 reactContext
                         .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
                         .emit("onDataSendingStart", params);
@@ -376,7 +376,7 @@ public class RNDataSdkWrapper extends ReactContextBaseJavaModule {
                 WritableMap params = Arguments.createMap();
                 params.putInt("action", SUCCESS);
                 params.putInt("statusCode", 200);
-                params.putInt("method", "registerDataSendingCompletionCallback");
+                params.putString("method", "registerDataSendingCompletionCallback");
                 reactContext
                         .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
                         .emit("onDataSendingSuccess", params);
@@ -401,7 +401,7 @@ public class RNDataSdkWrapper extends ReactContextBaseJavaModule {
                 params.putInt("action", ERROR);
                 params.putString("status", errorMessage);
                 params.putInt("statusCode", statusCode);
-                params.putInt("method", "registerDataSendingCompletionCallback");
+                params.putString("method", "registerDataSendingCompletionCallback");
                 reactContext
                     .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
                     .emit("onDataSendingError", params);
@@ -426,7 +426,7 @@ public class RNDataSdkWrapper extends ReactContextBaseJavaModule {
                 params.putInt("action", FAIL);
                 params.putString("status", t.getMessage());
                 params.putInt("statusCode", 500);
-                params.putInt("method", "registerDataSendingCompletionCallback");
+                params.putString("method", "registerDataSendingCompletionCallback");
                 reactContext
                     .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
                     .emit("onDataSendingFailed", params);
