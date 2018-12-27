@@ -56,6 +56,22 @@ public class RNDataSdkWrapper extends ReactContextBaseJavaModule {
         if (callback != null) {
             AndroidData.setProviderAccessToken(reactContext, TextUtils.isEmpty(provider) ? "" : provider, TextUtils.isEmpty(accessToken) ? "" : accessToken, TextUtils.isEmpty(providerId) ? "" : providerId, extra_data, TextUtils.isEmpty(expiration) || expiration.equals("null") ? 0 : Long.valueOf(expiration), new OnDataSendingCompleteCallback() {
                 @Override
+                public void onDataSendingStart() {
+                    UiThreadUtil.runOnUiThread(
+                            new GuardedRunnable(reactContext) {
+                                @Override
+                                public void runGuarded() {
+                                    try {
+                                        Log.d(TAG, "Send Provider Access Token Callback: Started!");
+                                        callback.invoke(SUCCESS, "Started!");
+                                    } catch (Exception e) {
+                                        //Catches the exception: java.lang.RuntimeException·Illegal callback invocation from native module
+                                    }
+                                }
+                            });
+                }
+
+                @Override
                 public void onDataSendingSuccess() {
                     UiThreadUtil.runOnUiThread(
                             new GuardedRunnable(reactContext) {
