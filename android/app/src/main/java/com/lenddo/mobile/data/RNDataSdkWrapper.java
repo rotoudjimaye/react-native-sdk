@@ -37,6 +37,7 @@ public class RNDataSdkWrapper extends ReactContextBaseJavaModule {
     public static final int FAIL = 0;
     public static final int SUCCESS = 1;
     public static final int ERROR = 2;
+    public static final int STARTED = 3;
 
     private static final String TAG = "RNDataSdkWrapper";
     private ReactApplicationContext reactContext;
@@ -63,7 +64,7 @@ public class RNDataSdkWrapper extends ReactContextBaseJavaModule {
                                 public void runGuarded() {
                                     try {
                                         Log.d(TAG, "Send Provider Access Token Callback: Started!");
-                                        callback.invoke(SUCCESS, "Started!");
+                                        callback.invoke(STARTED, "Started!");
                                     } catch (Exception e) {
                                         //Catches the exception: java.lang.RuntimeException·Illegal callback invocation from native module
                                     }
@@ -217,7 +218,7 @@ public class RNDataSdkWrapper extends ReactContextBaseJavaModule {
                                 public void runGuarded() {
                                     try {
                                         Log.d(TAG, "Send Partner Data Callback: Started!");
-                                        callback.invoke(SUCCESS, "Started!");
+                                        callback.invoke(STARTED, "Started!");
                                     } catch (Exception e) {
                                         //Catches the exception: java.lang.RuntimeException·Illegal callback invocation from native module
                                     }
@@ -291,7 +292,7 @@ public class RNDataSdkWrapper extends ReactContextBaseJavaModule {
                                 public void runGuarded() {
                                     try {
                                         Log.d(TAG, "Send Partner Data Callback: Started!");
-                                        callback.invoke(SUCCESS, "Started!");
+                                        callback.invoke(STARTED, "Started!");
                                     } catch (Exception e) {
                                         //Catches the exception: java.lang.RuntimeException·Illegal callback invocation from native module
                                     }
@@ -383,7 +384,7 @@ public class RNDataSdkWrapper extends ReactContextBaseJavaModule {
                             public void runGuarded() {
                                 try {
                                     Log.d(TAG, "Data Sending Callback: Started!");
-                                    callback.invoke(SUCCESS, "Started!");
+                                    callback.invoke(STARTED, "Started!");
                                 } catch (Exception e) {
                                     //Catches the exception: java.lang.RuntimeException·Illegal callback invocation from native module
                                 }
