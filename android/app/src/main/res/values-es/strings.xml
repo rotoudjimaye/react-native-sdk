@@ -1,67 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--Lenddo Onboarding SDK Strings-->
     <string name="verify_with_lenddo">Submit and Get Verified </string>
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_address_view">Set Location</string>
     <string name="next">Next</string>
-    <string name="confirm_location">Confirm</string>
-    <string name="map_instructions">Click on confirm once you have placed the marker on the correct position.</string>
-    <string name="choose_location">Choose Location</string>
-    <string name="required_field">This field is required</string>
-    <string name="enter_your_home_address">Enter your home address</string>
-    <string name="cancel">Cancel</string>
-    <string name="find_on_map">Find on map</string>
-    <string name="mark_your_address">Mark your address</string>
-    <string name="confirm">Confirm</string>
-    <string name="marker_required">Tap on the map to place a marker</string>
-    <string name="verify_your_address" />
-    <string name="address_set">Address confirmed. Click here to change.</string>
-    <string name="type_place_name">Type the name of a place</string>
-    <string name="map_navigation_instructions">Tap on the map to mark the location.\n\nYou may type on the search bar, drag the map or use pinch to zoom to navigate the map.</string>
     <string name="please_wait">Loading ...</string>
-    <string name="notification_error_ssl_cert_invalid">Loading ...</string>
     <string name="psychometrics_title">Psychometric Terms of Use</string>
     <string name="psychometrics_introduction">To ensure that you are the person who is taking the quiz, the app takes random selfie snapshots (not video) during the quiz session.\n\n\nBy Tapping "Continue" you agree to the Terms and Use.</string>
 
     <!--Lenddo Data SDK Strings-->
-    <string name="grant_access">Conceder Acceso</string>
-    <string name="permission_intro">Por favor otórganos permiso a tu teléfono, mensajes de texto, contactos, localización, y calendario para poder generar tu score de crédito. Puedes estar tranquilo que tus datos se protegerán de acuerdo a los estándar de la industria relacionados con encripción de datos privados en internet.\n</string>
-    <string name="learnmore_allcaps">Leer más</string>
-    <string name="back_allcaps">Regreso</string>
-    <string name="cancel_allcaps">Cancelar</string>
-    <string name="done_allcaps">Hecho</string>
-    <string name="submit_allcaps">Enviar</string>
-    <string name="continue_allcaps">Continuar</string>
+    <string name="grant_access">Permitir Acceso</string>
+    <string name="permission_intro">Para construir tu perfil crediticio por favor danos 7 permisos para acceder a tu información y analizarla.\n\nPuedes elegir libremente que accesos concedes, pero ten en cuenta que las posibilidades de aprobación de tu crédito serán mayores si otorgas más permisos a tu información.\n</string>
+    <string name="back_allcaps">REGRESO</string>
+    <string name="cancel_allcaps">CANCELAR</string>
+    <string name="done_allcaps">HECHO</string>
+    <string name="submit_allcaps">SUBMIT</string>
+    <string name="continue_allcaps">CONTINUAR A PERMISOS</string>
+    <string name="learn_more">Leer más</string>
+    <string name="dismiss_allcaps">RECHAZAR</string>
+    <string name="no_thanks_allcaps">NO GRACIAS</string>
+    <string name="retry_allcaps">REINTENTAR</string>
+    <string name="send_feedback_allcaps">ENVIAR COMENTARIOS</string>
 
-    <string name="permission_rationale_partial">Para segir usando la app, necesitas los siguientes permisos:</string>
-    <string name="permission_rationale_complete">Para estar seguros que entiendes la información que recopilamos, a continuación te entregamos un detalle de los permisos requeridos:</string>
+    <string name="permission_rationale_partial">Has negado el permiso para:</string>
+    <string name="permission_rationale_complete">¡Para conocerte mejor!, necesitamos acceso con fines únicamente de análisis a:</string>
 
-    <string name="permission_title_sms">SMS</string>
+    <string name="permission_title_sms">Mensajes de Texto</string>
     <string name="permission_title_phone">Teléfono</string>
     <string name="permission_title_location">Localización</string>
     <string name="permission_title_contacts">Contactos</string>
     <string name="permission_title_calendar">Calendario</string>
-    <string name="permission_title_media">Photos/Media/Files</string>
+    <string name="permission_title_media">Galería / Multimedia / Archivos</string>
+    <string name="permission_title_accounts">Cuentas</string>
 
-    <string name="permission_detail_sms">Solicitamos acceso a tus mensajes de texto para determinar a qué contactos envías mensajes más frecuentes. Esto nos ayuda a construir un gráfico de tu red social utilizando los datos que nos compartes.</string>
-    <string name="permission_detail_phone">Solicitamos acceso a tu teléfono para conocer el ID de tu dispositivo Android, que es enviado a nuestros servidores para propósitos de análisis. Solicitamos acceso a tu registro de llamadas para determinar a qué contactos llamas con más frecuencia. Esto nos ayuda a construir un gráfico de tu red social utilizando los datos que nos compartes.</string>
-    <string name="permission_detail_location">Estudiamos periódicamente tu localización. Esto nos ayuda a estimar con cierto grado de exactitud tus sitios más visitados. Usamos esta información como una señal para construir tu score de crédito.</string>
-    <string name="permission_detail_contacts">Solicitamos acceso a tus contactos para determinar con quién te relacionas frecuentemente. Esto nos ayuda a construir un gráfico de tu red social utilizando los datos que nos compartes.</string>
-    <string name="permission_detail_calendar">Al acceder a los eventos de tu calendario nos ayudas a determinar el tiempo en el día que estás mas ocupado. La gente que está ocupada durante el día tiene diferente comportamiento que la gente que está ocupada durante la noche. Usamos esta información para construir tu score de crédito</string>
-    <string name="permission_detail_media">We use read access to Photos/Media/Files to extract geo-location information from image and video files. This helps us estimate with a fair level of accuracy on your most visited locations. We use this as a signal for building your credit score.</string>
+    <string name="permission_detail_sms">La frecuencia de uso para entender tu comportamiento de mensajería de texto.</string>
+    <string name="permission_detail_phone">El ID de tu dispositivo Android para entender tu comportamiento telefónico.</string>
+    <string name="permission_detail_location">Tu localización y tus sitios mas visitados.</string>
+    <string name="permission_detail_contacts">Las personas con las que te relacionas frecuentemente.</string>
+    <string name="permission_detail_calendar">Tus eventos en el calendario y que momentos del día estas más ocupado.</string>
+    <string name="permission_detail_media">La ubicación de tus fotos y tus hábitos de esparcimiento.</string>
+    <string name="permission_detail_accounts">Lectura a tus cuentas de Google asociadas a tu dispositivo</string>
 
     <string name="feedback_title">Ayúdanos a mejorar</string>
     <string name="feedback_inquiry">¿Cuál es tu razón principal para no compartir datos?</string>
     <string name="feedback1">Estoy preocupado acerca de la privacidad de mis datos.</string>
     <string name="feedback2">No entiendo cómo estos permisos me ayudan.</string>
-    <string name="feedback3">No entiendo como utilizan mi información.</string>
+    <string name="feedback3">No entiendo cómo utilizan mi información.</string>
     <string name="feedback4">Otros</string>
     <string name="thank_you_title">Gracias</string>
-    <string name="thank_you_detail">Tu feedback nos ayuda a mejorar nuestra experiencia de producto.</string>
+    <string name="thank_you_detail">Tu opinión nos ayuda a mejorar nuestra experiencia de producto.</string>
 
-    // Validation Message
+    <!--Validation Message-->
     <string name="validation_msg_unsupported_exception">Validation is disabled.</string>
     <string name="validation_msg_mandatory_field">This field is required.</string>
     <string name="validation_msg_validation_disabled">Validation is disabled.</string>
@@ -69,10 +58,28 @@
     <string name="validation_msg_invalid_date_format">Invalid date format.</string>
     <string name="validation_msg_invalid_email_format">Invalid email format.</string>
 
-    // Permission confirmation
-    <string name="permission_cancel_dialog_title">Important!</string>
-    <string name="permission_cancel_dialog_message">Are you sure you want to cancel this operation.</string>
-    <string name="permission_cancel_dialog_positive_key">YES</string>
+    <!--Permission confirmation-->
+    <string name="permission_cancel_dialog_title">¡Importante!</string>
+    <string name="permission_cancel_dialog_message">¿Estás seguro de que deseas cancelar esta operación?</string>
+    <string name="permission_cancel_dialog_positive_key">SÍ</string>
     <string name="permission_cancel_dialog_negative_key">NO</string>
 
+    <!--Permission dismiss-->
+    <string name="permission_rationale_important_message">Todavía puedes dar estos permisos eligiendo REINTENTAR o puedes elegir RECHAZAR y ya no te volveremos a pedir que des los permisos.</string>
+    <string name="permission_dismiss_dialog_title">¡Importante!</string>
+    <string name="permission_dismiss_dialog_message">¿Estás seguro de que deseas continuar sin dar todos los permisos?</string>
+    <string name="permission_dismiss_dialog_positive_key">SÍ</string>
+    <string name="permission_dismiss_dialog_negative_key">NO</string>
+
+    <!--Liveness Detection-->
+    <string name="liveness_initial_instruction">Please keep your face centered inside\nthe perimeter. Start recording\nwhen you\'re ready</string>
+    <string name="video_capture_tooltip">Press the button when you\'re ready</string>
+    <string name="preview">Preview</string>
+    <string name="recording_done">Recording done!</string>
+    <string name="you_can_now_preview_your_selfie">You can now preview \n your selfie.</string>
+    <string name="done">Done!</string>
+    <string name="uploading">Uploading</string>
+    <string name="submit">Submit</string>
+    <string name="retake">Retake</string>
+    <string name="your_document_has_been_successfully_uploaded">Your %s has\nbeen successfully uploaded.</string>
 </resources>
