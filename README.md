@@ -1,45 +1,41 @@
-# RNDataSdkWrapper
-
 Table of Contents
 =================
 <!-- TOC -->
-
-- [RNDataSdkWrapper](#rndatasdkwrapper)
-    - [Lenddo React-Native Demo App](#lenddo-react-native-demo-app)
-    - [Pre-requisites](#pre-requisites)
-    - [To run Sample App](#to-run-sample-app)
-        - [Installing nodejs dependecies for Sample App](#installing-nodejs-dependecies-for-sample-app)
-    - [Data SDK implementation instruction](#data-sdk-implementation-instruction)
-        - [Adding Lenddo react-native-sdk into your react-native dependencies](#adding-lenddo-react-native-sdk-into-your-react-native-dependencies)
-        - [Gradle setup](#gradle-setup)
-        - [Required Permissions](#required-permissions)
-        - [Required gradle declaration](#required-gradle-declaration)
-        - [Initializing React-Native Lenddo Data SDK](#initializing-react-native-lenddo-data-sdk)
-        - [Register native module in Application class in your android project](#register-native-module-in-application-class-in-your-android-project)
-        - [Setting Partner Script Id](#setting-partner-script-id)
-        - [Registering data gathering callback](#registering-data-gathering-callback)
-    - [Onboarding SDK implementation instruction](#onboarding-sdk-implementation-instruction)
-        - [Adding Lenddo react-native-sdk into your react-native dependencies](#adding-lenddo-react-native-sdk-into-your-react-native-dependencies-1)
-        - [Gradle setup](#gradle-setup-1)
-        - [Required Permissions](#required-permissions-1)
-        - [Required gradle declaration](#required-gradle-declaration-1)
-        - [Initializing React-Native Lenddo Onboarding SDK](#initializing-react-native-lenddo-onboarding-sdk)
-        - [Register native module in Application class in your android project](#register-native-module-in-application-class-in-your-android-project-1)
-        - [Setting Partner Script Id](#setting-partner-script-id-1)
-        - [Registering onboarding callback](#registering-onboarding-callback)
-        - [Additional yet optional onboarding setup](#additional-yet-optional-onboarding-setup)
-            - [Setup endpoint and back popup dialog](#setup-endpoint-and-back-popup-dialog)
-            - [Adding native email signin and facebook login(optional)](#adding-native-email-signin-and-facebook-loginoptional)
-                - [Include GoogleSignInHelper and FacebookSignInHelper into your wrapper package](#include-googlesigninhelper-and-facebooksigninhelper-into-your-wrapper-package)
-                - [Enabling using Gmail SignIn and Facebook Login in App.js](#enabling-using-gmail-signin-and-facebook-login-in-appjs)
-
+- [0.1. Lenddo React-Native Demo App](#01-lenddo-react-native-demo-app)
+- [0.2. Pre-requisites](#02-pre-requisites)
+- [0.3. To run Sample App](#03-to-run-sample-app)
+    - [0.3.1. Installing nodejs dependecies for Sample App](#031-installing-nodejs-dependecies-for-sample-app)
+- [0.4. Data SDK implementation instruction](#04-data-sdk-implementation-instruction)
+    - [0.4.1. Adding Lenddo react-native-sdk into your react-native dependencies](#041-adding-lenddo-react-native-sdk-into-your-react-native-dependencies)
+    - [0.4.2. Gradle setup](#042-gradle-setup)
+    - [0.4.3. Required Permissions](#043-required-permissions)
+    - [0.4.4. Required gradle declaration](#044-required-gradle-declaration)
+    - [0.4.5. Initializing React-Native Lenddo Data SDK](#045-initializing-react-native-lenddo-data-sdk)
+    - [0.4.6. Register native module in Application class in your android project](#046-register-native-module-in-application-class-in-your-android-project)
+    - [0.4.7. Setting Partner Script Id](#047-setting-partner-script-id)
+    - [0.4.8. Registering data gathering callback](#048-registering-data-gathering-callback)
+        - [0.4.8.1. Capturing callback via EventEmitter](#0481-capturing-callback-via-eventemitter)
+- [0.5. Onboarding SDK implementation instruction](#05-onboarding-sdk-implementation-instruction)
+    - [0.5.1. Adding Lenddo react-native-sdk into your react-native dependencies](#051-adding-lenddo-react-native-sdk-into-your-react-native-dependencies)
+    - [0.5.2. Gradle setup](#052-gradle-setup)
+    - [0.5.3. Required Permissions](#053-required-permissions)
+    - [0.5.4. Required gradle declaration](#054-required-gradle-declaration)
+    - [0.5.5. Initializing React-Native Lenddo Onboarding SDK](#055-initializing-react-native-lenddo-onboarding-sdk)
+    - [0.5.6. Register native module in Application class in your android project](#056-register-native-module-in-application-class-in-your-android-project)
+    - [0.5.7. Setting Partner Script Id](#057-setting-partner-script-id)
+    - [0.5.8. Registering onboarding callback](#058-registering-onboarding-callback)
+    - [0.5.9. Additional yet optional onboarding setup](#059-additional-yet-optional-onboarding-setup)
+        - [0.5.9.1. Setup endpoint and back popup dialog](#0591-setup-endpoint-and-back-popup-dialog)
+        - [0.5.9.2. Adding native email signin and facebook login(optional)](#0592-adding-native-email-signin-and-facebook-loginoptional)
+            - [0.5.9.2.1. Include GoogleSignInHelper and FacebookSignInHelper into your wrapper package](#05921-include-googlesigninhelper-and-facebooksigninhelper-into-your-wrapper-package)
+            - [0.5.9.2.2. Enabling using Gmail SignIn and Facebook Login in App.js](#05922-enabling-using-gmail-signin-and-facebook-login-in-appjs)
 <!-- /TOC -->
 
-## Lenddo React-Native Demo App
+## 0.1. Lenddo React-Native Demo App
 
 An android sample app to demonstrate react-native Lenddo data sdk that allows you to collect information in order for Lenddo to verify the user's information and enhance its scoring capabilities. And with implementation instruction for new react-native application. You can check the demo application from this [link](https://github.com/Lenddo/react-native-sdk-sample-app) for more information regarding the implementaion stated below.
 
-## Pre-requisites
+## 0.2. Pre-requisites
 
 Before incorporating the React-Native Data SDK into your app, you should be provided with the following information:
 
@@ -49,7 +45,7 @@ Please ask for the information above from your Lenddo representative. If you hav
 
 There may be also other partner specific values that you are required to set.
 
-## To run Sample App
+## 0.3. To run Sample App
 
 * Update `index.android.bundle` whenever you modify your code in `App.js`
 
@@ -62,7 +58,7 @@ react-native bundle --platform android --dev false --entry-file index.js --bundl
 react-native run-android
 ```
 
-### Installing nodejs dependecies for Sample App
+### 0.3.1. Installing nodejs dependecies for Sample App
 
 ```bash
 npm install @lenddo/react-native-sdk --save
@@ -72,15 +68,15 @@ npm install react-native-tab-view --save
 npm install react-native-gesture-handler --save
 ```
 
-## Data SDK implementation instruction
+## 0.4. Data SDK implementation instruction
 
-### Adding Lenddo react-native-sdk into your react-native dependencies
+### 0.4.1. Adding Lenddo react-native-sdk into your react-native dependencies
 
 ```bash
 npm install @lenddo/react-native-sdk --save
 ```
 
-### Gradle setup
+### 0.4.2. Gradle setup
 
 * In `android/setting.gradle`
 
@@ -101,7 +97,7 @@ dependencies {
 }
 ```
 
-### Required Permissions
+### 0.4.3. Required Permissions
 React-Native Data Sdk will use information stored on the users' android phone. It is advisable for all permissions to be added to your app to enable LenddoData to extract the necessary information for verification and scoring. The optimal permissions are already defined for you in the Libraries’ AndroidManifest.xml and are automatically added to your app using gradle when you rebuild the app after adding our SDK.
 
 Below is the list of required permissions.
@@ -109,10 +105,8 @@ Below is the list of required permissions.
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.READ_SMS" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.READ_CALENDAR" />
-    <uses-permission android:name="android.permission.READ_CALL_LOG" />
     <uses-permission android:name="com.android.browser.permission.READ_HISTORY_BOOKMARKS" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -125,12 +119,10 @@ If you do not want the all default permissions added, you manually have to remov
 <uses-permission android:name="android.permission.INTERNET" />
 <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-<uses-permission android:name="android.permission.READ_SMS" />
-<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 ```
 It is also important that these permissions are consistent with the privacy policy of your app.
 
-### Required gradle declaration
+### 0.4.4. Required gradle declaration
 In your app-level build.gradle file, it is a good practice to set/ use targetSdkVersion, compileSdkVersion and buildToolsVersion of api 26:
 ```gradle
 apply plugin: 'com.android.application'
@@ -172,7 +164,7 @@ buildscript {
 }
 ```
 
-### Initializing React-Native Lenddo Data SDK
+### 0.4.5. Initializing React-Native Lenddo Data SDK
 In your Application class initialize Lenddo core info as shown below (Lenddo React-Native Demo app).
 
 ```java
@@ -205,7 +197,7 @@ public class MainApplication extends Application implements ReactApplication {
 
 ```
 
-### Register native module in Application class in your android project
+### 0.4.6. Register native module in Application class in your android project
 
 ```java
 package lenddo.com.lenddoconnect;
@@ -260,14 +252,14 @@ public class MainApplication extends Application implements ReactApplication {
 }
 
 ```
-### Setting Partner Script Id
+### 0.4.7. Setting Partner Script Id
 On your App.js, setup Partner Script Id dynamically via RNDataSdkWrapper's ```setPartnerScriptId``` method. **And make sure to setup your Partner Script Id before calling RNDataSdkWrapper's** ```startAndroidData``` **method.**
 
 ```javascript
     RNDataSdkWrapper.setPartnerScriptId(this.state.scoring.partnerScriptId);
 ```
 
-### Registering data gathering callback
+### 0.4.8. Registering data gathering callback
 On your App.js, setup Lenddo sdk with callback to capture response from gathering of data and sending data into our api. You should call RNDataSdkWrapper's ```setupWithCallback``` before ```startAndroidData```. As shown in Lenddo React-Native Demo app.
 
 ```javascript
@@ -301,15 +293,46 @@ Other setup method available are ```setupWithClientOptions``` and the default ``
 
 Note whenever you desire to use ```setupWithClientOptions``` and ```setupWithCallback``` at the same time, make sure you call ```setupWithClientOptions``` first. And also to make sure to call setup methods just once.
 
-## Onboarding SDK implementation instruction
+#### 0.4.8.1. Capturing callback via EventEmitter
+You can also use EventEmitter for capturing datasdk callbacks, by just using React-Native Callback class it only captures: **success**, **error** and **failed** state, it does not include **start** state. Refer to the source code below.
 
-### Adding Lenddo react-native-sdk into your react-native dependencies
+```javascript
+  componentWillMount() {
+    DeviceEventEmitter.addListener('onDataSendingStart',(params) => {
+            console.log("onDataSendingStart")
+            console.log(params)
+            if (params.method == 'registerDataSendingCompletionCallback') {
+                // do something when data collection stared
+            }
+        }
+    )
+    DeviceEventEmitter.addListener('onDataSendingSuccess',(params) => {
+            console.log("onDataSendingSuccess")
+            console.log(params)
+        }
+    )
+    DeviceEventEmitter.addListener('onDataSendingError',(params) => {
+            console.log("onDataSendingError")
+            console.log(params)
+        }
+    )
+    DeviceEventEmitter.addListener('onDataSendingFailed',(params) => {
+            console.log("onDataSendingFailed")
+            console.log(params)
+        }
+    )
+  }
+```
+
+## 0.5. Onboarding SDK implementation instruction
+
+### 0.5.1. Adding Lenddo react-native-sdk into your react-native dependencies
 
 ```bash
 npm install @lenddo/react-native-sdk --save
 ```
 
-### Gradle setup
+### 0.5.2. Gradle setup
 
 * In `android/setting.gradle`
 
@@ -330,7 +353,7 @@ dependencies {
 }
 ```
 
-### Required Permissions
+### 0.5.3. Required Permissions
 React-Native Onboarding Sdk will require internet access and an **optional** camera access that is required for only psychometics and assisted enable.
 
 ```xml
@@ -338,7 +361,7 @@ React-Native Onboarding Sdk will require internet access and an **optional** cam
     <uses-permission android:name="android.permission.CAMERA" />
 ```
 
-### Required gradle declaration
+### 0.5.4. Required gradle declaration
 In your app-level build.gradle file, it is a good practice to set/ use targetSdkVersion, compileSdkVersion and buildToolsVersion of api 26:
 ```gradle
 apply plugin: 'com.android.application'
@@ -361,7 +384,7 @@ android {
 }
 ```
 
-### Initializing React-Native Lenddo Onboarding SDK
+### 0.5.5. Initializing React-Native Lenddo Onboarding SDK
 In your Application class initialize Lenddo core info as shown below (Lenddo React-Native Demo app).
 
 ```java
@@ -398,7 +421,7 @@ public class MainApplication extends Application implements ReactApplication {
 
 ```
 
-### Register native module in Application class in your android project
+### 0.5.6. Register native module in Application class in your android project
 
 ```java
 package lenddo.com.lenddoconnect;
@@ -457,14 +480,14 @@ public class MainApplication extends Application implements ReactApplication {
 }
 
 ```
-### Setting Partner Script Id
+### 0.5.7. Setting Partner Script Id
 On your App.js, setup Partner Script Id dynamically via RNOnboardingSdkWrapper's ```setPartnerScriptId``` method. **And make sure to setup your Partner Script Id before calling RNOnboardingSdkWrapper's** ```startAuthorize``` **method.**
 
 ```javascript
     RNOnboardingSdkWrapper.setPartnerScriptId(this.state.formData.partnerScriptId);
 ```
 
-### Registering onboarding callback
+### 0.5.8. Registering onboarding callback
 On your App.js, setup Lenddo onboarding sdk with callback to capture response from your startAuthorize call, by using RTCDeviceEventEmitter to capture onboarding progress and listen to WebView's backpress.  As shown in Lenddo React-Native Demo app.
 
 ```javascript
@@ -545,10 +568,10 @@ onPressStartOnboarding() {
     RNOnboardingSdkWrapper.startAuthorize()
 }
 ```
-### Additional yet optional onboarding setup
+### 0.5.9. Additional yet optional onboarding setup
 On your App.js, setup Lenddo onboarding sdk with additional options to be use.
 
-#### Setup endpoint and back popup dialog
+#### 0.5.9.1. Setup endpoint and back popup dialog
 You can customize endpoint and back popup dialog via sample code snippet below
 
 ```javascript
@@ -558,10 +581,10 @@ You can customize endpoint and back popup dialog via sample code snippet below
     RNOnboardingSdkWrapper.customizeBackPopup('Title', 'Message', 'OK', 'Cancel')
 ```
 
-#### Adding native email signin and facebook login(optional)
+#### 0.5.9.2. Adding native email signin and facebook login(optional)
 If your work flow includes email signin and facebook login, you can use native application for this feature.
 
-##### Include GoogleSignInHelper and FacebookSignInHelper into your wrapper package
+##### 0.5.9.2.1. Include GoogleSignInHelper and FacebookSignInHelper into your wrapper package
 ```java
 public class MainApplication extends Application implements ReactApplication {
 
@@ -595,7 +618,7 @@ public class MainApplication extends Application implements ReactApplication {
 }
 ```
 
-##### Enabling using Gmail SignIn and Facebook Login in App.js
+##### 0.5.9.2.2. Enabling using Gmail SignIn and Facebook Login in App.js
 After adding the signin helper class, enable the use of this via code snippet below
 
 ```javascript
