@@ -3,7 +3,11 @@ package com.lenddo.mobile.data;
 
 import android.text.TextUtils;
 
+import com.facebook.react.modules.core.DeviceEventManagerModule;
+import com.facebook.react.modules.core.DeviceEventManagerModule.RCTDeviceEventEmitter;
 import com.facebook.react.bridge.Callback;
+import com.facebook.react.bridge.WritableMap;
+import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.GuardedRunnable;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
@@ -34,9 +38,11 @@ public class RNDataSdkWrapper extends ReactContextBaseJavaModule {
     public static final String PROVIDER_GOOGLE = "google";
     public static final String PROVIDER_KAKAOTALK = "kakaostory";
     public static final String PROVIDER_TWITTER = "twitter";
-    public static final int FAIL = 0;
-    public static final int SUCCESS = 1;
-    public static final int ERROR = 2;
+    private static final int FAIL = 0;
+    private static final int SUCCESS = 1;
+    private static final int ERROR = 2;
+    private static final int CANCELLED = 3;
+    private static final int STARTED = 4;
 
     private static final String TAG = "RNDataSdkWrapper";
     private ReactApplicationContext reactContext;
@@ -56,7 +62,25 @@ public class RNDataSdkWrapper extends ReactContextBaseJavaModule {
         if (callback != null) {
             AndroidData.setProviderAccessToken(reactContext, TextUtils.isEmpty(provider) ? "" : provider, TextUtils.isEmpty(accessToken) ? "" : accessToken, TextUtils.isEmpty(providerId) ? "" : providerId, extra_data, TextUtils.isEmpty(expiration) || expiration.equals("null") ? 0 : Long.valueOf(expiration), new OnDataSendingCompleteCallback() {
                 @Override
+                public void onDataSendingStart() {
+                    WritableMap params = Arguments.createMap();
+                    params.putInt("action", STARTED);
+                    params.putInt("statusCode", 201);
+                    params.putString("method", "setProviderAccessToken");
+                    reactContext
+                            .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+                            .emit("onDataSendingStart", params);
+                }
+
+                @Override
                 public void onDataSendingSuccess() {
+                    WritableMap params = Arguments.createMap();
+                    params.putInt("action", SUCCESS);
+                    params.putInt("statusCode", 200);
+                    params.putString("method", "setProviderAccessToken");
+                    reactContext
+                            .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+                            .emit("onDataSendingSuccess", params);
                     UiThreadUtil.runOnUiThread(
                             new GuardedRunnable(reactContext) {
                                 @Override
@@ -73,6 +97,14 @@ public class RNDataSdkWrapper extends ReactContextBaseJavaModule {
 
                 @Override
                 public void onDataSendingError(final int statusCode, final String errorMessage) {
+                    WritableMap params = Arguments.createMap();
+                    params.putInt("action", ERROR);
+                    params.putString("status", errorMessage);
+                    params.putInt("statusCode", statusCode);
+                    params.putString("method", "setProviderAccessToken");
+                    reactContext
+                        .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+                        .emit("onDataSendingError", params);
                     UiThreadUtil.runOnUiThread(
                             new GuardedRunnable(reactContext) {
                                 @Override
@@ -89,6 +121,14 @@ public class RNDataSdkWrapper extends ReactContextBaseJavaModule {
 
                 @Override
                 public void onDataSendingFailed(final Throwable t) {
+                    WritableMap params = Arguments.createMap();
+                    params.putInt("action", FAIL);
+                    params.putString("status", t.getMessage());
+                    params.putInt("statusCode", 500);
+                    params.putString("method", "setProviderAccessToken");
+                    reactContext
+                        .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+                        .emit("onDataSendingFailed", params);
                     UiThreadUtil.runOnUiThread(
                             new GuardedRunnable(reactContext) {
                                 @Override
@@ -189,61 +229,7 @@ public class RNDataSdkWrapper extends ReactContextBaseJavaModule {
         apd.verification_data = vd;
 
         String payload = new GsonBuilder().serializeSpecialFloatingPointValues().disableHtmlEscaping().create().toJson(apd);
-        Log.d(TAG, "sendPartnerApplicationData:: payload:: " + payload);
-
-        if (callback != null) {
-            AndroidData.sendPartnerApplicationData(reactContext, payload, new OnDataSendingCompleteCallback() {
-                @Override
-                public void onDataSendingSuccess() {
-                    UiThreadUtil.runOnUiThread(
-                            new GuardedRunnable(reactContext) {
-                                @Override
-                                public void runGuarded() {
-                                    try {
-                                        Log.d(TAG, "Send Partner Data Callback: Success!");
-                                        callback.invoke(SUCCESS, "Success!");
-                                    } catch (Exception e) {
-                                        //Catches the exception: java.lang.RuntimeException·Illegal callback invocation from native module
-                                    }
-                                }
-                            });
-                }
-
-                @Override
-                public void onDataSendingError(final int statusCode, final String errorMessage) {
-                    UiThreadUtil.runOnUiThread(
-                            new GuardedRunnable(reactContext) {
-                                @Override
-                                public void runGuarded() {
-                                    try {
-                                        Log.d(TAG, "Send Partner Data Callback: Error: " + errorMessage);
-                                        callback.invoke(ERROR, "Error: " + errorMessage, statusCode);
-                                    } catch (Exception e) {
-                                        //Catches the exception: java.lang.RuntimeException·Illegal callback invocation from native module
-                                    }
-                                }
-                            });
-                }
-
-                @Override
-                public void onDataSendingFailed(final Throwable t) {
-                    UiThreadUtil.runOnUiThread(
-                            new GuardedRunnable(reactContext) {
-                                @Override
-                                public void runGuarded() {
-                                    try {
-                                        Log.d(TAG, "Send Partner Data Callback: Failed: " + t.getMessage());
-                                        callback.invoke(FAIL, "Failed: " + t.getMessage());
-                                    } catch (Exception e) {
-                                        //Catches the exception: java.lang.RuntimeException·Illegal callback invocation from native module
-                                    }
-                                }
-                            });
-                }
-            });
-        } else {
-            AndroidData.sendPartnerApplicationData(reactContext, payload, null);
-        }
+        this.sendPartnerApplicationData(payload, callback);
     }
 
     @ReactMethod
@@ -252,7 +238,26 @@ public class RNDataSdkWrapper extends ReactContextBaseJavaModule {
         if (callback != null) {
             AndroidData.sendPartnerApplicationData(reactContext, payload, new OnDataSendingCompleteCallback() {
                 @Override
+                public void onDataSendingStart() {
+                    WritableMap params = Arguments.createMap();
+                    params.putInt("action", STARTED);
+                    params.putInt("statusCode", 201);
+                    params.putString("method", "sendPartnerApplicationData");
+                    reactContext
+                            .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+                            .emit("onDataSendingStart", params);
+                }
+
+                @Override
                 public void onDataSendingSuccess() {
+                    WritableMap params = Arguments.createMap();
+                    params.putInt("action", SUCCESS);
+                    params.putInt("statusCode", 200);
+                    params.putString("method", "sendPartnerApplicationData");
+                    reactContext
+                            .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+                            .emit("onDataSendingSuccess", params);
+                            
                     UiThreadUtil.runOnUiThread(
                             new GuardedRunnable(reactContext) {
                                 @Override
@@ -269,6 +274,15 @@ public class RNDataSdkWrapper extends ReactContextBaseJavaModule {
 
                 @Override
                 public void onDataSendingError(final int statusCode, final String errorMessage) {
+                    WritableMap params = Arguments.createMap();
+                    params.putInt("action", ERROR);
+                    params.putString("status", errorMessage);
+                    params.putInt("statusCode", statusCode);
+                    params.putString("method", "sendPartnerApplicationData");
+                    reactContext
+                        .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+                        .emit("onDataSendingError", params);
+
                     UiThreadUtil.runOnUiThread(
                             new GuardedRunnable(reactContext) {
                                 @Override
@@ -285,6 +299,14 @@ public class RNDataSdkWrapper extends ReactContextBaseJavaModule {
 
                 @Override
                 public void onDataSendingFailed(final Throwable t) {
+                    WritableMap params = Arguments.createMap();
+                    params.putInt("action", FAIL);
+                    params.putString("status", t.getMessage());
+                    params.putInt("statusCode", 500);
+                    params.putString("method", "sendPartnerApplicationData");
+                    reactContext
+                        .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+                        .emit("onDataSendingFailed", params);
                     UiThreadUtil.runOnUiThread(
                             new GuardedRunnable(reactContext) {
                                 @Override
@@ -322,13 +344,43 @@ public class RNDataSdkWrapper extends ReactContextBaseJavaModule {
         AndroidData.setup(reactContext, null);
     }
 
+    
+    /**
+     * Please use registerDataSendingCompletionCallback
+     * @param callback - React native callback to capture data sending callback
+     */
+    @Deprecated
     @ReactMethod
     public void setupWithCallback(final Callback callback) {
         Log.d(TAG, "setupWithCallback");
-        ClientOptions clientOptions = DataManager.getInstance().getClientOptions();
-        clientOptions.registerDataSendingCompletionCallback(new OnDataSendingCompleteCallback() {
+        this.registerDataSendingCompletionCallback(callback);
+    }
+
+    @ReactMethod
+    public void registerDataSendingCompletionCallback(final Callback callback) {
+        Log.d(TAG, "registerDataSendingCompletionCallback");
+        DataManager.getInstance().getClientOptions().registerDataSendingCompletionCallback(new OnDataSendingCompleteCallback() {
+            @Override
+            public void onDataSendingStart() {
+                WritableMap params = Arguments.createMap();
+                params.putInt("action", STARTED);
+                params.putInt("statusCode", 201);
+                params.putString("method", "registerDataSendingCompletionCallback");
+                reactContext
+                        .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+                        .emit("onDataSendingStart", params);
+            }
+            
             @Override
             public void onDataSendingSuccess() {
+                WritableMap params = Arguments.createMap();
+                params.putInt("action", SUCCESS);
+                params.putInt("statusCode", 200);
+                params.putString("method", "registerDataSendingCompletionCallback");
+                reactContext
+                        .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+                        .emit("onDataSendingSuccess", params);
+
                 UiThreadUtil.runOnUiThread(
                         new GuardedRunnable(reactContext) {
                             @Override
@@ -345,6 +397,15 @@ public class RNDataSdkWrapper extends ReactContextBaseJavaModule {
 
             @Override
             public void onDataSendingError(final int statusCode, final String errorMessage) {
+                WritableMap params = Arguments.createMap();
+                params.putInt("action", ERROR);
+                params.putString("status", errorMessage);
+                params.putInt("statusCode", statusCode);
+                params.putString("method", "registerDataSendingCompletionCallback");
+                reactContext
+                    .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+                    .emit("onDataSendingError", params);
+
                 UiThreadUtil.runOnUiThread(
                         new GuardedRunnable(reactContext) {
                             @Override
@@ -361,6 +422,15 @@ public class RNDataSdkWrapper extends ReactContextBaseJavaModule {
 
             @Override
             public void onDataSendingFailed(final Throwable t) {
+                WritableMap params = Arguments.createMap();
+                params.putInt("action", FAIL);
+                params.putString("status", t.getMessage());
+                params.putInt("statusCode", 500);
+                params.putString("method", "registerDataSendingCompletionCallback");
+                reactContext
+                    .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+                    .emit("onDataSendingFailed", params);
+
                 UiThreadUtil.runOnUiThread(
                         new GuardedRunnable(reactContext) {
                             @Override
@@ -375,15 +445,23 @@ public class RNDataSdkWrapper extends ReactContextBaseJavaModule {
                         });
             }
         });
-
-        AndroidData.setup(reactContext, clientOptions);
     }
 
+    
+    /**
+     * Please use applyClientOptions
+     */
+    @Deprecated
     @ReactMethod
     public void setupWithClientOptions() {
         Log.d(TAG, "setupWithClientOptions");
-        ClientOptions clientOptions = RNClientOptions.getInstance().getClientOptions();
-        AndroidData.setup(reactContext, clientOptions);
+        this.applyClientOptions();
+    }
+
+    @ReactMethod
+    public void applyClientOptions() {
+        Log.d(TAG, "applyClientOptions");
+        DataManager.getInstance().setClientOptions(RNClientOptions.getInstance().getClientOptions());
     }
 
     @ReactMethod
