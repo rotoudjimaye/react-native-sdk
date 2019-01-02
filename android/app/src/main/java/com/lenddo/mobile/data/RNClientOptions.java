@@ -268,6 +268,16 @@ public class RNClientOptions extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
+    public void enableSMSDataCollection() {
+        this.clientOptions.enableSMSDataCollection();
+    }
+
+    @ReactMethod
+    public void enableCallLogDataCollection() {
+        this.clientOptions.enableCallLogDataCollection();
+    }
+
+    @ReactMethod
     public void isEnableSMS(Callback callback) {
         Log.d(TAG, "isEnableSMS: " + this.clientOptions.isEnableSMS());
         try {

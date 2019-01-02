@@ -38,11 +38,11 @@ public class RNDataSdkWrapper extends ReactContextBaseJavaModule {
     public static final String PROVIDER_GOOGLE = "google";
     public static final String PROVIDER_KAKAOTALK = "kakaostory";
     public static final String PROVIDER_TWITTER = "twitter";
-    private static final int STARTED = 0;
+    private static final int FAIL = 0;
     private static final int SUCCESS = 1;
-    private static final int CANCELLED = 2;
-    private static final int ERROR = 3;
-    private static final int FAIL = 4;
+    private static final int ERROR = 2;
+    private static final int CANCELLED = 3;
+    private static final int STARTED = 4;
 
     private static final String TAG = "RNDataSdkWrapper";
     private ReactApplicationContext reactContext;
