@@ -162,19 +162,21 @@ RCT_EXPORT_METHOD(showAuthorize:(NSDictionary *) formDataDictionary callback:(RC
     formData.fields = fields;
     
     formData.themeColor = themeColor;
-    formData.enableAssistedPsychometrics = &(enableAssistedPsychometrics);
+    formData.enableAssistedPsychometrics = enableAssistedPsychometrics;
     formData.psychometricsApiGateway = psychometricsApiGateway;
     
     formData.partnerScriptId = partnerScriptId;
     formData.enableKYC = enableKYC;
     formData.enableDataCollection = enableDataCollection;
+    if (enableDataCollection == true) {
+        formData.installationId = installationId;
+    }
     formData.binApiGateway =  binApiGateway;
     
     formData.partnerScriptId = partnerScriptId;
     formData.secret = secret;
     formData.authorizeApiGateway = authorizeApiGateway;
     formData.region = region;
-    formData.installationId = installationId;
     formData.facebookToken = facebookToken;
     // formData.expiration = expiration;
     formData.clientId = clientId;
