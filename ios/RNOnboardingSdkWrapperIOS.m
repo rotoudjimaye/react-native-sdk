@@ -14,7 +14,7 @@ RCT_EXPORT_METHOD(addEvent:(NSString *)name location:(NSString *)location) {
     RCTLogInfo(@"Pretending to create an event %@ at %@", name, location);
 }
 
-RCT_EXPORT_METHOD(showAuthorize:(NSDictionary *) formDataDictionary callback:(RCTResponseSenderBlock)callback) {
+RCT_EXPORT_METHOD(showAuthorizeWithFormData:(NSDictionary *) formDataDictionary callback:(RCTResponseSenderBlock)callback) {
     NSString* partnerScriptId = [formDataDictionary objectForKey:@"partnerScriptId"];
     NSString* secret = [formDataDictionary objectForKey:@"secret"];
     NSString* authorizeApiGateway = [formDataDictionary objectForKey:@"authorizeApiGateway"];
