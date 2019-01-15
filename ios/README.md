@@ -9,10 +9,11 @@
 
 `$ react-native link  @lenddo/react-native-sdk`
 
-###Issue during installation
+#### Issue on automatic installation
+
 You might encounter auto-linking of ‘LenddoEFLSdk.framework’ file, as shown in the picture below
 
-![Saving Localizable.strings](https://github.com/Lenddo/react-native-sdk/wiki/LenddoEFLSdk.framework_auto-linking_failed.png)
+![LenddoEFLSdk framework auto-linking failed](https://github.com/Lenddo/react-native-sdk/wiki/LenddoEFLSdk.framework_auto-linking_failed.png)
 
 To manual link of `@lenddo/react-native-sdk`’s `LenddoEFLSdk.framework` into your project
 1. In Xcode, select the project, then select the main target (under `Targets`), then go to the `Build Settings` tab, and find the `Framework Search Paths` section. Add `../node_modules/@lenddo/react-native-sdk/ios/Frameworks` (non-recursive) for each of your configurations (e.g. Debug and Release).
@@ -92,7 +93,7 @@ this.state = {
       },
     }
 ``` 
-### Variables Definition
+#### Variables Definition
 
 ```
 partnerScriptId
@@ -123,7 +124,7 @@ class ThemeColor  {
 formData.theme = new ThemeColor(0x00, 0xff, 0x00, 1);
 ```
 
-### Applying localization
+#### Applying localization
 The SDK Wrapper requires ```Use Base Internationalization``` enable where some text within the onboarding session screen, like ```back``` text and strings for the cancel dialog should be declared.
 ```Localizable.strings``` file is where you add translation data as key-value pairs.
 Earlier versions of XCode used to generate a Localizable.strings file by default, and we were able to easily duplicate the Localizable.strings file for other languages. 
@@ -148,6 +149,6 @@ Now, you have a Localizable.strings file for Base language as below. and then yo
 "cancel_dialog_cancel_button_text" = "No";
 ```
 
-### Adding Native Google SignIn
+#### Adding Native Google SignIn
 
 You may follow this instructions from LenddoEFL native iOS Onboarding [documentation.](https://github.com/Lenddo/ios-lenddo-onboarding#8-google-sign-in-sdk-integration)
