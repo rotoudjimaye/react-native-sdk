@@ -198,4 +198,26 @@ export default class RNLenddoEFLSDKDemo extends PureComponent {
 
 #### Adding Native Google SignIn
 
-You may follow this instructions from LenddoEFL native iOS Onboarding [documentation.](https://github.com/Lenddo/ios-lenddo-onboarding#8-google-sign-in-sdk-integration)
+If you are required to have an email onboarding step, you should add a native google sign-in workflow, and [you can follow this instructions from LenddoEFL native iOS Onboarding and for more information](https://github.com/Lenddo/ios-lenddo-onboarding#8-google-sign-in-sdk-integration).
+On the said procedure you will be asked to create ```GoogleProvider``` class and after successfully creating the class you need to send it unto RNOnboardingSdkIOS via your ```ApplicationDelegate```'s ```application: didFinishLaunchingWithOptions:``` method.
+                                                                                                                                                                                             
+```objective-c
+
+#import "RNOnboardingSdkWrapperIOS.h"
+ 
+@implementation AppDelegate
+ 
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+  
+  // Other member declartion
+  
+  // Create GoogleProvider object and add into a NSArray
+  GoogleProvider *googleProvider = [[GoogleProvider alloc] init];
+  NSArray *providers = [NSArray arrayWithObjects: googleProvider, nil];
+  
+  [RNOnboardingSdkWrapperIOS setProviders:providers];
+  
+  return YES;
+}
+
+```
