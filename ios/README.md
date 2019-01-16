@@ -194,8 +194,8 @@ export default class RNLenddoEFLSDKDemo extends PureComponent {
         }
     )
 }
-
-
+```
+ 
 #### Adding Native Google SignIn
 
 If you are required to have an email onboarding step, you should add a native google sign-in workflow, and [you can follow this instructions from LenddoEFL native iOS Onboarding and for more information](https://github.com/Lenddo/ios-lenddo-onboarding#8-google-sign-in-sdk-integration).
