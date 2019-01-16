@@ -149,6 +149,53 @@ Now, you have a Localizable.strings file for Base language as below. and then yo
 "cancel_dialog_cancel_button_text" = "No";
 ```
 
+#### Registering onboarding callback
+On your App.js, setup LenddoEFL onboarding callback to capture response from your ```showAuthorizeWithFormData``` call, by using RCTNativeEventEmitter to capture onboarding progress. As shown in LenddoEFL React-Native Demo app.
+
+```javascript
+import {Platform, NativeEventEmitter} from 'react-native';
+import {RNOnboardingSdkWrapperIOS} from '@lenddo/react-native-sdk';
+ 
+const OnboardingEventEmitter = Platform.OS == 'ios' ? new NativeEventEmitter(RNOnboardingSdkWrapperIOS) : DeviceEventEmitter;
+ 
+export default class RNLenddoEFLSDKDemo extends PureComponent {    
+    
+    // Other method description
+    
+    
+    componentWillMount() {
+        OnboardingEventEmitter.addListener('onAuthorizeStarted',(params) => {
+            // Do any source code before lenddo onboarding start.
+            console.log("onAuthorizeStarted")
+            console.log(params)
+            }
+        )
+        OnboardingEventEmitter.addListener('onAuthorizeComplete',(params) => {
+                console.log("onAuthorizeComplete")
+                console.log(params)
+            }
+        )
+        OnboardingEventEmitter.addListener('onAuthorizeCancelled',(params) => {
+                console.log("onAuthorizeCancelled")
+                console.log(params)
+            }
+        )
+        OnboardingEventEmitter.addListener('onAuthorizeError',(params) => {
+                console.log("onAuthorizeError")
+                console.log(params)
+            }
+        )
+        if (Platform.OS == 'android') {
+            OnboardingEventEmitter.addListener('onAuthorizeFailure',(params) => {
+                    console.log("onAuthorizeFailure")
+                    console.log(params)
+               }
+            )
+        }
+    )
+}
+
+
 #### Adding Native Google SignIn
 
 You may follow this instructions from LenddoEFL native iOS Onboarding [documentation.](https://github.com/Lenddo/ios-lenddo-onboarding#8-google-sign-in-sdk-integration)
