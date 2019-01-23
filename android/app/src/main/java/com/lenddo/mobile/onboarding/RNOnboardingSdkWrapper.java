@@ -193,7 +193,7 @@ public class RNOnboardingSdkWrapper extends ReactContextBaseJavaModule implement
                 params.putInt("statusCode", 300);
                 reactContext
                         .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-                        .emit("onAuthorizeCanceled", params);
+                        .emit("onAuthorizeCancelled", params);
             }
 
             @Override
