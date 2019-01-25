@@ -16,7 +16,7 @@ You might encounter auto-linking of ‘LenddoEFLSdk.framework’ file, as shown 
 ![LenddoEFLSdk framework auto-linking failed](https://github.com/Lenddo/react-native-sdk/wiki/LenddoEFLSdk.framework_auto-linking_failed.png)
 
 To manual link of `@lenddo/react-native-sdk`’s `LenddoEFLSdk.framework` into your project
-1. In Xcode, select the project, then select the main target (under `Targets`), then go to the `Build Settings` tab, and find the `Framework Search Paths` section. Add `../node_modules/@lenddo/react-native-sdk/ios/Frameworks` (non-recursive) for each of your configurations (e.g. Debug and Release).
+1. In Xcode, select the project, then select the main target (under `Targets`), then go to the `Build Settings` tab, and find the `Framework Search Paths` section. Add `../node_modules/\@lenddo/react-native-sdk/ios/Frameworks` (non-recursive) for each of your configurations (e.g. Debug and Release). Note: *a \ (backslash) is required before @*
 2. Find the LenddoEFLSdk.framework file in `../node_modules/@lenddo/react-native-sdk/ios/Frameworks` and drag it into Xcode under the `Frameworks` section. In the dialog that pops up, **uncheck** `Copy items if needed`, **choose** `Create groups`, and ensure your main target is checked under `Add to targets`.
 3. In Xcode, select the project, then select the main target (under `Targets`), then go to the "General" tab and find the `Embedded Binaries` section. Click the `+` icon and select LenddoEFLSdk.framework which appears under `Frameworks` then click `Add`.
 4. In Xcode do `Product` -> `Clean`.
