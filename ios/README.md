@@ -199,12 +199,13 @@ export default class RNLenddoEFLSDKDemo extends PureComponent {
 #### Adding Native Google SignIn
 
 If you are required to have an email onboarding step, you should add a native google sign-in workflow, and [you can follow this instructions from LenddoEFL native iOS Onboarding and for more information](https://github.com/Lenddo/ios-lenddo-onboarding#8-google-sign-in-sdk-integration).
-On the said procedure you will be asked to create ```GoogleProvider``` class and after successfully creating the class you need to send it unto RNOnboardingSdkIOS via your ```ApplicationDelegate```'s ```application: didFinishLaunchingWithOptions:``` method.
-                                                                                                                                                                                             
+On the said procedure you will be asked to create ```GoogleProvider``` class **(You may copy the GoogleProvider.m and GoogleProvider.h file from the [React-Native Sample App source code](https://github.com/Lenddo/react-native-sdk-sample-app/tree/feature/add_ios_onboarding_library/ios))** and after having the class you need to send it unto RNOnboardingSdkIOS via your ```ApplicationDelegate```'s ```application: didFinishLaunchingWithOptions:``` method.
+    
 ```objective-c
 
 #import "RNOnboardingSdkWrapperIOS.h"
- 
+#import "GoogleProvider.h"
+
 @implementation AppDelegate
  
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
@@ -214,10 +215,56 @@ On the said procedure you will be asked to create ```GoogleProvider``` class and
   // Create GoogleProvider object and add into a NSArray
   GoogleProvider *googleProvider = [[GoogleProvider alloc] init];
   NSArray *providers = [NSArray arrayWithObjects: googleProvider, nil];
-  
+
+  // Add GoogleProvider object into wrapper
   [RNOnboardingSdkWrapperIOS setProviders:providers];
   
   return YES;
 }
 
 ```
+
+#### Issue you might encounter for implementing GoogleSignIn when using CocoaPods 
+
+Commonly used way of importing GoogleSignIn Library is through CocoaPods. Adding it up only on Podfile sometimes might not just do the work. As shown in the sample Podfile below, GoogleSignIn is properly imported
+
+```
+# Uncomment the next line to define a global platform for your project
+# platform :ios, '9.0'
+
+target 'RNLenddoEFLSdkWrapperDemo' do
+  # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
+  # use_frameworks!
+
+  # Pods for RNLenddoEFLSdkWrapperDemo
+  pod 'GoogleSignIn'
+
+  target 'RNLenddoEFLSdkWrapperDemoTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+end
+
+target 'RNLenddoEFLSdkWrapperDemo-tvOS' do
+  # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
+  # use_frameworks!
+
+  # Pods for RNLenddoEFLSdkWrapperDemo-tvOS
+
+  target 'RNLenddoEFLSdkWrapperDemo-tvOSTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+end
+```
+
+But you might encounter error below.
+
+![framework not found GoogleSignIn](https://user-images.githubusercontent.com/25608370/37246165-6451dd0a-24a4-11e8-8a05-503022a70b8a.png)
+
+To fix the problem,
+1. Find the GoogleSignIn.framework file in “../ios/Pods/GoogleSignIn/Frameworks” and drag it into Xcode under the "Frameworks" section. In the dialog that pops up, uncheck "Copy items if needed", choose "Create groups", and ensure your main target is checked under "Add to targets".
+2. Unlike LenddoEFLSdk.Framework, it is not require to add the the framework on "General" > “Embedded Binaries" section. Thus, it should add the `$(PROJECT_DIR)/Pods/GoogleSignIn/Frameworks` automatically in `Framework Search Paths`
+3. In Xcode do "Product" -> "Clean".
